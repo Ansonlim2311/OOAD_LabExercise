@@ -1,5 +1,5 @@
 import java.awt.*;
-// import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,7 +13,11 @@ public class DrawingProgram extends JFrame implements ChangeListener {
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		ToolBar toolBar = new ToolBar();
+		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
+		RightCanvasPanel rightCanvas = new RightCanvasPanel();
+		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
+
+		ToolBar toolBar = new ToolBar(fileHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
         
 		JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -21,9 +25,6 @@ public class DrawingProgram extends JFrame implements ChangeListener {
         toolbar.add(penSize);
 		this.add(toolbar, BorderLayout.SOUTH);
         penSize.addChangeListener(this);
-
-		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
-        RightCanvasPanel rightCanvas = new RightCanvasPanel();
 
 		JSplitPane splitPane = new JSplitPane(
 			JSplitPane.HORIZONTAL_SPLIT,

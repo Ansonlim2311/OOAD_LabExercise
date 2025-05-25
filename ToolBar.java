@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 public class ToolBar {
     private JToolBar toolBar;
 
-    public ToolBar() {
+    public ToolBar(FileButtonHandler fileListener) {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBackground(new Color(173, 216, 230));
 
-        JButton fileButton = createIconButton("images/file.jpg", "File", e -> {
+        JButton fileButton = createIconButton("images/file.png", "File", e -> {
+            fileListener.openFileDialog();
             System.out.println("File button clicked");
-            // openFileDialog();
         });
 
         JButton designButton = createIconButton("images/design.png", "Design", e -> {
@@ -24,7 +24,7 @@ public class ToolBar {
             // resizeImage();
         });
 
-        JButton toolsButton = createIconButton("images/pen.jpg", "Pen", e -> {
+        JButton toolsButton = createIconButton("images/pen.png", "Pen", e -> {
             System.out.println("Pen button clicked");
             // openPenTool();
         });
