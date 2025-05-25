@@ -9,20 +9,13 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     Point newPoint  = new Point();
     BufferedImage image, jpgImage;
     Graphics2D graphics2d;
-    public static Color penColor = new Color(0, 0, 0);
-    public static int pen = 4;
 
     RightCanvasPanel() {
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
     }
 
-    public void mouseClicked(MouseEvent me) {
-        if (me.getModifiers() == MouseEvent.BUTTON3_MASK) {
-            penColor = JColorChooser.showDialog(this, "Change pen color", penColor);
-        }
-    }
-
+    public void mouseClicked(MouseEvent me) {};
     public void mousePressed (MouseEvent me) {};
     public void mouseReleased (MouseEvent me) {};
     public void mouseEntered (MouseEvent me) {};
@@ -30,8 +23,8 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        graphics2d.setStroke(new BasicStroke(pen));
-        graphics2d.setColor(penColor);
+        graphics2d.setStroke(new BasicStroke(PenButtonDialog.pen));
+        graphics2d.setColor(PenButtonDialog.penColor);
         newPoint = me.getPoint();
         if (graphics2d != null) {
             graphics2d.drawLine(oldPoint.x, oldPoint.y, newPoint.x, newPoint.y);

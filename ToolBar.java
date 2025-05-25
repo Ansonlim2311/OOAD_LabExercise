@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 public class ToolBar {
     private JToolBar toolBar;
 
-    public ToolBar(FileButtonHandler fileListener) {
+    public ToolBar(FileButtonHandler fileListener, PenButtonHandler penListener) {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBackground(new Color(173, 216, 230));
@@ -25,8 +25,8 @@ public class ToolBar {
         });
 
         JButton toolsButton = createIconButton("images/pen.png", "Pen", e -> {
+            penListener.openPenDialog();
             System.out.println("Pen button clicked");
-            // openPenTool();
         });
 
         toolBar.add(fileButton);
