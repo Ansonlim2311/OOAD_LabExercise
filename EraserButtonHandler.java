@@ -11,9 +11,6 @@ public class EraserButtonHandler {
         } else {
             button.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         }
-
-        // Optionally, you could notify the canvas to switch to eraser mode
-        // RightCanvasPanel.setEraserMode(eraserActive);
     }
 
     public boolean eraserActive() {

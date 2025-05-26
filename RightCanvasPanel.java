@@ -5,12 +5,14 @@ import java.awt.image.BufferedImage;
 
 public class RightCanvasPanel extends JPanel implements MouseMotionListener, MouseListener {
     
-    Point oldPoint = new Point();
-    Point newPoint  = new Point();
-    BufferedImage image, newImage, jpgImage;
-    Graphics2D graphics2d, g2d;
+    private Point oldPoint = new Point();
+    private Point newPoint  = new Point();
+    private BufferedImage image, newImage, jpgImage;
+    private Graphics2D graphics2d, g2d;
+    private PenButtonHandler penHandler;
 
-    RightCanvasPanel() {
+    RightCanvasPanel(PenButtonHandler penHandler) {
+        this.penHandler = penHandler;
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
     }
@@ -23,12 +25,12 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        graphics2d.setStroke(new BasicStroke(PenButtonDialog.pen));
+        graphics2d.setStroke(new BasicStroke(penHandler.getPenSize()));
         if (EraserButtonHandler.eraserActive == true) {
             graphics2d.setColor(Color.WHITE);
         }
         else {
-            graphics2d.setColor(PenButtonDialog.penColor);
+            graphics2d.setColor(penHandler.getPenColor());
         }
         newPoint = me.getPoint();
         if (graphics2d != null) {

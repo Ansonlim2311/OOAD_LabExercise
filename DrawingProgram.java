@@ -8,10 +8,10 @@ public class DrawingProgram extends JFrame {
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
-		RightCanvasPanel rightCanvas = new RightCanvasPanel();
-		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
 		PenButtonHandler penHandler = new PenButtonHandler(this);
+		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
+		RightCanvasPanel rightCanvas = new RightCanvasPanel(penHandler);
+		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
 		EraserButtonHandler eraserHandler = new EraserButtonHandler();
 
 		ToolBar toolBar = new ToolBar(fileHandler, penHandler, eraserHandler);
