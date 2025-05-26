@@ -1,0 +1,42 @@
+2. Support for Multiple Creation Types
+• Allow left canvas creation with specification like width and height. 
+• Allow users to add animal and flower images onto the left canvas from a library 
+of collections.
+• Both are types of creation, and in future, the application should be able to expand 
+with more creation types.
+• Implement using inheritance or interface. For example, both AnimalItem and 
+FlowerItem should extend a common abstract class or implement a shared 
+interface.
+
+4. Enhanced Toolbar with Icon-Based Controls
+Design a toolbar with icon-based buttons (using JToolBar, JButton, and relevant icons) 
+that supports the following:
+• Create left canvas
+• Refresh/create new right canvas for free style drawing
+• Change pen color
+• Adjust pen stroke size
+• Insert animal image (from library collection)
+• Insert flower image (from library collection)
+• Add the custom image to the composition canvas (from library collection)
+Toolbar should be built using modular methods to keep code clean and extensible.
+
+5. Independent Rotation
+• Enable individual creation items (animals, flowers, custom images) to be rotated 
+independently.
+• Allow the entire left canvas to also be rotated as a whole.
+• Add rotation sliders or gesture-based rotation using MouseMotionListener.
+
+6. Canvas Composition
+• Allow the left canvas (along with its contents) to be merged into a new canvas
+(Can be done by saving the old canvas and then composing into a new canvas).
+• The resulting composed canvased should also be rotatable.
+
+7. Mouse-Driven Transformations
+Utilize mouse listeners (MouseListener, MouseMotionListener) to provide the 
+following interactions:
+• Flip animal images 
+• Scale flower images proportionally through mouse interaction
+• Transpose (move) custom drawn images 
+
+8. File Operations
+• Support drag-and-drop image import into the canvas (from library collection).
