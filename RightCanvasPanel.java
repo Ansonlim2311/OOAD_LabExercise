@@ -7,8 +7,8 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     
     Point oldPoint = new Point();
     Point newPoint  = new Point();
-    BufferedImage image, jpgImage;
-    Graphics2D graphics2d;
+    BufferedImage image, newImage, jpgImage;
+    Graphics2D graphics2d, g2d;
 
     RightCanvasPanel() {
         this.addMouseMotionListener(this);
@@ -53,6 +53,19 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
             graphics2d = image.createGraphics();
             graphics2d.setBackground(Color.WHITE);
             graphics2d.fillRect(0, 0, width, height);
+        }
+        if (width > 0 && height > 0) {
+            newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            g2d = newImage.createGraphics();
+            g2d.setBackground(Color.WHITE);
+            g2d.clearRect(0, 0, width, height);
+
+            if (image != null) {
+                g2d.drawImage(image, 0, 0, null);
+            }
+            g2d.dispose();
+            image = newImage;
+            graphics2d = image.createGraphics();
         }
         g.drawImage(image, 0, 0, null);
     }
