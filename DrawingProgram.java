@@ -15,10 +15,6 @@ public class DrawingProgram extends JFrame {
 
 		ToolBar toolBar = new ToolBar(fileHandler, penHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
-        
-		JPanel toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		toolbar.add(new Label("Drag mouse to draw (RIGHT)"));
-		this.add(toolbar, BorderLayout.SOUTH);
 
 		JSplitPane splitPane = new JSplitPane(
 			JSplitPane.HORIZONTAL_SPLIT,

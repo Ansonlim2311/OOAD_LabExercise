@@ -24,7 +24,12 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     @Override
     public void mouseDragged(MouseEvent me) {
         graphics2d.setStroke(new BasicStroke(PenButtonDialog.pen));
-        graphics2d.setColor(PenButtonDialog.penColor);
+        if (PenButtonDialog.eraserActive == true) {
+            graphics2d.setColor(Color.WHITE);
+        }
+        else {
+            graphics2d.setColor(PenButtonDialog.penColor);
+        }
         newPoint = me.getPoint();
         if (graphics2d != null) {
             graphics2d.drawLine(oldPoint.x, oldPoint.y, newPoint.x, newPoint.y);

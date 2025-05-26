@@ -41,13 +41,9 @@ public class ToolBar {
         JButton button = new JButton(new ImageIcon(scaledImage));
         button.setToolTipText(toolTip);
         button.addActionListener(actionListener);
-        button.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4)); // small padding
-        // button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         button.setContentAreaFilled(false);
-        // // button.setOpaque(false);
-
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         return button;
     }
 
