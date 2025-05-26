@@ -6,7 +6,7 @@ public class PenButtonDialog extends JDialog {
     public static int pen = 4;
     public static boolean eraserActive = false;
     private JSlider penSizeSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, pen);
-    private JButton penSettingButton, eraserButton;
+    private JButton penSettingButton;
 
     public PenButtonDialog(JFrame parentFrame) {
         super(parentFrame, "Pen Tool", false);
@@ -19,10 +19,6 @@ public class PenButtonDialog extends JDialog {
         penSettingButton = createIconButton("images/colourPalette.png", "Pen Setting");
         penSettingButton.addActionListener(e -> showPenSettingPopup());
         penToolBar.add(penSettingButton);
-
-        eraserButton = createIconButton("images/eraser.png", "Eraser");
-        eraserButton.addActionListener(e -> eraserSetting());
-        penToolBar.add(eraserButton);
 
         add(penToolBar, BorderLayout.CENTER);
     }
@@ -52,16 +48,6 @@ public class PenButtonDialog extends JDialog {
         paletteDialog.pack();
         paletteDialog.setLocationRelativeTo(this);
         paletteDialog.setVisible(true);
-    }
-
-    private void eraserSetting() {
-        PenButtonDialog.eraserActive = !PenButtonDialog.eraserActive;
-        if (PenButtonDialog.eraserActive == true) {
-            eraserButton.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
-        }
-        else {
-            eraserButton.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        }
     }
 
     private JButton createIconButton(String iconPath, String toolTip) {

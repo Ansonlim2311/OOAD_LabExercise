@@ -24,7 +24,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     @Override
     public void mouseDragged(MouseEvent me) {
         graphics2d.setStroke(new BasicStroke(PenButtonDialog.pen));
-        if (PenButtonDialog.eraserActive == true) {
+        if (EraserButtonHandler.eraserActive == true) {
             graphics2d.setColor(Color.WHITE);
         }
         else {
