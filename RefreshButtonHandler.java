@@ -27,9 +27,12 @@ public class RefreshButtonHandler {
             JOptionPane.showMessageDialog(parentComponent, "Right Canvas Is Already Empty");
             return;
         }
+        if (rightCanvas.hasUnsavedChanges() == false) {
+            rightCanvas.clearCanvas();
+            return;
+        }
 
-        choice = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save your drawing before refreshing?", "Unsaved Changes", 
-                                        JOptionPane.YES_NO_CANCEL_OPTION);
+        choice = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save your drawing before refreshing?", "Unsaved Changes", JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (choice == JOptionPane.CANCEL_OPTION || choice == JOptionPane.CLOSED_OPTION) {
             return;

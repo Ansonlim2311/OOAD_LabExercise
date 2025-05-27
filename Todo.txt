@@ -12,7 +12,6 @@ interface.
 Design a toolbar with icon-based buttons (using JToolBar, JButton, and relevant icons) 
 that supports the following:
 • Create left canvas
-• Refresh/create new right canvas for free style drawing
 • Insert animal image (from library collection)
 • Insert flower image (from library collection)
 • Add the custom image to the composition canvas (from library collection)

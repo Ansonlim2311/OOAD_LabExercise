@@ -71,7 +71,7 @@ public class FileButtonHandler {
         }
 
         try {
-            BufferedImage imageToBeSaved = null;
+            imageToBeSaved = null;
             if(canvasSelection.equals("Left Canvas")) {
                 imageToBeSaved = leftCanvas.getComposedImage();
             }
@@ -85,12 +85,17 @@ public class FileButtonHandler {
             }
 
             if (imageToBeSaved != null) {
-                File outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
+                outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
                 ImageIO.write(imageToBeSaved, formatSelection.toLowerCase(), outputFile);
                 JOptionPane.showMessageDialog(parentComponent, "Image Saved To:\n" + outputFile.getAbsolutePath());
+                saveChange();
             }
         } catch (IOException error) {
             JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
         }
+    }
+    private boolean saveChange() {
+        rightCanvas.setUnsavedChange();
+        return true;
     }
 }
