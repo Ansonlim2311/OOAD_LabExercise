@@ -8,11 +8,14 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     private Point oldPoint = new Point();
     private Point newPoint  = new Point();
     private BufferedImage image, newImage, jpgImage;
-    private Graphics2D graphics2d, g2d;
+    private boolean hasDrawn, unsavedChanges = false;
+    private Graphics2D graphics2d, g2d, clearG2;
     private PenButtonHandler penHandler;
+    private EraserButtonHandler eraserHandler;
 
-    RightCanvasPanel(PenButtonHandler penHandler) {
+    RightCanvasPanel(PenButtonHandler penHandler, EraserButtonHandler eraserHandler) {
         this.penHandler = penHandler;
+        this.eraserHandler = eraserHandler;
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
     }
@@ -26,7 +29,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     @Override
     public void mouseDragged(MouseEvent me) {
         graphics2d.setStroke(new BasicStroke(penHandler.getPenSize()));
-        if (EraserButtonHandler.eraserActive == true) {
+        if (eraserHandler.eraserActive() == true) {
             graphics2d.setColor(Color.WHITE);
         }
         else {
@@ -38,6 +41,8 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
         }
         repaint();
         oldPoint = newPoint;
+        hasDrawn = true;
+        unsavedChanges = true;
     }
 
     @Override
@@ -98,5 +103,30 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
 
     public BufferedImage getJPGCanvasImage() {
         return getCanvasImage(true);
+    }
+
+
+    public boolean hasUnsavedChanges() {
+        return unsavedChanges;
+    }
+
+    public void setUnsavedChange() {
+        unsavedChanges = false;
+    }
+
+    public boolean isEmpty() {
+        return !hasDrawn;
+    }
+
+    public void clearCanvas() {
+        if (image != null) {
+            clearG2 = image.createGraphics();
+            clearG2.setColor(Color.WHITE);
+            clearG2.fillRect(0, 0, getWidth(), getHeight());
+            clearG2.dispose();
+            hasDrawn = false;
+            unsavedChanges = false;
+            repaint();
+        }
     }
 }

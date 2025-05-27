@@ -4,15 +4,15 @@ import java.awt.*;
 public class ToolBar {
     private JToolBar toolBar;
 
-    public ToolBar(FileButtonHandler fileListener, PenButtonHandler penListener, EraserButtonHandler eraserListener) {
+    public ToolBar(FileButtonHandler fileListener, PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBackground(new Color(173, 216, 230));
+        toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
 
         JButton fileButton = createIconButton("images/file.png", "File");
         fileButton.addActionListener(e -> {
             fileListener.openFileDialog();
-            System.out.println("File button clicked");
         });
 
         JButton designButton = createIconButton("images/design.png", "Design");
@@ -25,10 +25,15 @@ public class ToolBar {
             System.out.println("Resize button clicked");
         });
 
+        toolBar.add(fileButton);
+        toolBar.add(designButton);
+        toolBar.add(resizeButton);
+
+        toolBar.add(Box.createHorizontalGlue());
+
         JButton penButton = createIconButton("images/pen.png", "Pen");
         penButton.addActionListener(e -> {
             penListener.openPenDialog();
-            System.out.println("Pen button clicked");
         });
 
         JButton eraserButton = createIconButton("images/eraser.png", "Eraser");
@@ -36,11 +41,14 @@ public class ToolBar {
             eraserListener.activeEraser(eraserButton);
         });
 
-        toolBar.add(fileButton);
-        toolBar.add(designButton);
-        toolBar.add(resizeButton);
+        JButton refreshButton = createIconButton("images/refresh.png", "Refresh");
+        refreshButton.addActionListener(e -> {
+            refreshListener.handlerRefresh();
+        });
+
         toolBar.add(penButton);
         toolBar.add(eraserButton);
+        toolBar.add(refreshButton);
     }
 
     private JButton createIconButton(String iconPath, String toolTip) {

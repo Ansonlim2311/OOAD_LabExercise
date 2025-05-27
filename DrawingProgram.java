@@ -9,12 +9,13 @@ public class DrawingProgram extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		PenButtonHandler penHandler = new PenButtonHandler(this);
-		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
-		RightCanvasPanel rightCanvas = new RightCanvasPanel(penHandler);
-		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
 		EraserButtonHandler eraserHandler = new EraserButtonHandler();
+		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
+		RightCanvasPanel rightCanvas = new RightCanvasPanel(penHandler, eraserHandler);
+		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
+		RefreshButtonHandler refreshHandler = new RefreshButtonHandler(this, rightCanvas);
 
-		ToolBar toolBar = new ToolBar(fileHandler, penHandler, eraserHandler);
+		ToolBar toolBar = new ToolBar(fileHandler, penHandler, eraserHandler, refreshHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
 
 		JSplitPane splitPane = new JSplitPane(

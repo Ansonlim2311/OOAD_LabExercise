@@ -5,42 +5,48 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-public class FileButtonHandler {
-    private Component parentComponent;
-    private LeftCanvasPanel leftCanvas;
+public class RefreshButtonHandler {
+    
     private RightCanvasPanel rightCanvas;
-    private String canvasSelection,formatSelection;
+    private Component parentComponent;
+    private int choice;
+    private String formatSelection;
     private JFileChooser folderChooser = new JFileChooser("library");
     private int result;
     private File folder, outputFile;
     private String filename;
     private BufferedImage imageToBeSaved;
 
-    public FileButtonHandler(Component parentComponent, LeftCanvasPanel leftCanvas, RightCanvasPanel rightCanvas) {
+    public RefreshButtonHandler(Component parentComponent, RightCanvasPanel rightCanvas) {
         this.parentComponent = parentComponent;
-        this.leftCanvas = leftCanvas;
         this.rightCanvas = rightCanvas;
     }
 
-    public void openFileDialog() {
-        showSaveDialog();
-    }
-
-    private void showSaveDialog() {
-        String[] options = {"Left Canvas", "Right Canvas", "Both"};
-        canvasSelection = (String) JOptionPane.showInputDialog(
-            parentComponent,
-            "Which canvas would you like to save?",
-           "Canvas Selection",
-            JOptionPane.PLAIN_MESSAGE,
-            null,
-            options,
-            options[0]
-        );
-        if (canvasSelection == null) {
+    public void handlerRefresh() {
+        if (rightCanvas.isEmpty() == true) {
+            JOptionPane.showMessageDialog(parentComponent, "Right Canvas Is Already Empty");
             return;
         }
 
+        choice = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save your drawing before refreshing?", "Unsaved Changes", 
+                                        JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if (choice == JOptionPane.CANCEL_OPTION || choice == JOptionPane.CLOSED_OPTION) {
+            return;
+        }
+        if (choice == JOptionPane.YES_OPTION) {
+            boolean saved = saveChange();
+            saveRightCanvas();
+            if (saved) {
+                rightCanvas.clearCanvas();
+            }
+        } else {
+            rightCanvas.clearCanvas();
+            JOptionPane.showMessageDialog(parentComponent, "Right canvas has been refreshed.");
+        }
+    }
+
+    private void saveRightCanvas() {
         String[] format = {"JPG", "PNG"};
         formatSelection = (String) JOptionPane.showInputDialog(
             parentComponent,
@@ -71,26 +77,25 @@ public class FileButtonHandler {
         }
 
         try {
-            BufferedImage imageToBeSaved = null;
-            if(canvasSelection.equals("Left Canvas")) {
-                imageToBeSaved = leftCanvas.getComposedImage();
-            }
-            else if (canvasSelection.equals("Right Canvas")) {
-                if (formatSelection == "PNG") {
-                    imageToBeSaved = rightCanvas.getPNGCanvasImage();
-                }
-                else if (formatSelection == "JPG") {
-                    imageToBeSaved = rightCanvas.getJPGCanvasImage();
-                }
+            imageToBeSaved = null;
+            if (formatSelection == "PNG") {
+                imageToBeSaved = rightCanvas.getPNGCanvasImage();
+            } else if (formatSelection == "JPG") {
+                imageToBeSaved = rightCanvas.getJPGCanvasImage();
             }
 
             if (imageToBeSaved != null) {
-                File outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
+                outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
                 ImageIO.write(imageToBeSaved, formatSelection.toLowerCase(), outputFile);
                 JOptionPane.showMessageDialog(parentComponent, "Image Saved To:\n" + outputFile.getAbsolutePath());
             }
         } catch (IOException error) {
             JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
         }
+    }
+
+    private boolean saveChange() {
+        rightCanvas.setUnsavedChange();
+        return true;
     }
 }

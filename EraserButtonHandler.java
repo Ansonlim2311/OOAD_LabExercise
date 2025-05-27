@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EraserButtonHandler {
-    public static boolean eraserActive = false;
+    private boolean eraserActive = false;
 
     public void activeEraser(JButton button) {
         eraserActive = !eraserActive;

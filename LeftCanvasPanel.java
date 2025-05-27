@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class LeftCanvasPanel extends JPanel {
@@ -15,7 +16,7 @@ public class LeftCanvasPanel extends JPanel {
         }
     }
 
-    private java.util.List<PositionedImage> images = new ArrayList<>();
+    private List<PositionedImage> images = new ArrayList<>();
 
     public LeftCanvasPanel() {
         setPreferredSize(new Dimension(400, 600));
