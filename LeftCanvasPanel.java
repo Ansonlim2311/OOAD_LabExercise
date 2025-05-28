@@ -9,6 +9,7 @@ public class LeftCanvasPanel extends JPanel {
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage subCanvas;
     private int subCanvasX, subCanvasY;
+    private Graphics2D g2d;
 
     public LeftCanvasPanel() {
         setPreferredSize(new Dimension(400, 600));
@@ -22,7 +23,7 @@ public class LeftCanvasPanel extends JPanel {
 
     public void newSubCanvas(int width, int height) {
         subCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = subCanvas.createGraphics();
+        g2d = subCanvas.createGraphics();
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, width, height);
         g2d.dispose();
@@ -30,8 +31,6 @@ public class LeftCanvasPanel extends JPanel {
         subCanvasX = (getWidth() - width) / 2;
         subCanvasY = (getHeight() - height) / 2;
 
-        // setPreferredSize(new Dimension(width, height));
-        // revalidate();
         repaint();
     }
 
@@ -39,39 +38,48 @@ public class LeftCanvasPanel extends JPanel {
         if (subCanvas == null) {
             return;
         }
-        Graphics2D g2d = subCanvas.createGraphics();
-        item.draw(g2d);
-        g2d.dispose();
+        items.add(item);
         repaint();
 }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g.create();
         if (subCanvas != null) {
+
+            subCanvasX = (getWidth() - subCanvas.getWidth()) / 2;
+            subCanvasY = (getHeight() - subCanvas.getHeight()) / 2;
             g2d.drawImage(subCanvas, subCanvasX, subCanvasY, null);
+
+            Shape oldClip = g2d.getClip();
+            g2d.setClip(subCanvasX, subCanvasY, subCanvas.getWidth(), subCanvas.getHeight());
+
+            g2d.translate(subCanvasX, subCanvasY);
+            for(int i = 0; i < items.size(); i++) {
+                CreationItem item = items.get(i);
+                item.draw(g2d);
+            }
+            g2d.translate(-subCanvasX, -subCanvasY);
+            g2d.setClip(oldClip);
+        } else {
+            for(int i = 0; i < items.size(); i++) {
+                CreationItem item = items.get(i);
+                item.draw(g2d);
+            }
         }
-        g2d.translate(subCanvasX, subCanvasY);
-        for(int i = 0; i < items.size(); i++) {
-            CreationItem item = items.get(i);
-            item.draw(g2d);
-        }
-        g2d.translate(-subCanvasX, -subCanvasY);
-        
         g.setColor(Color.BLACK);
         g.drawString("Left Canvas (Image Composition)", 10, 20);
+        g.dispose();
     }
 
     public BufferedImage getComposedImage() {
-        int width = getWidth();
-        int height = getHeight();
 
-        BufferedImage composed = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage composed = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D gra2D = composed.createGraphics();
 
         if (subCanvas != null) {
-            gra2D.drawImage(subCanvas, 0, 40, null);
+            gra2D.drawImage(subCanvas, 0, 0, null);
         }
 
         for(int i = 0; i < items.size(); i++) {
