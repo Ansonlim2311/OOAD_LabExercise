@@ -1,10 +1,10 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-class AnimalItems extends AbstractCreationItem {
+class CustomImage extends AbstractCreationItem {
     private BufferedImage image;
 
-    public AnimalItems(BufferedImage image, int x, int y) {
+    public CustomImage(BufferedImage image, int x, int y) {
         super(x, y);
         this.image = image;
     }

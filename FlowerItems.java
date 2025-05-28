@@ -1,10 +1,10 @@
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 class FlowerItems extends AbstractCreationItem {
-    private Image image;
+    private BufferedImage image;
 
-    public FlowerItems(Image image, int x, int y) {
+    public FlowerItems(BufferedImage image, int x, int y) {
         super(x, y);
         this.image = image;
     }
@@ -25,7 +25,7 @@ class FlowerItems extends AbstractCreationItem {
     }
 
     @Override
-    protected Image getImage() { 
+    protected BufferedImage getImage() { 
         return image; 
     }
 
