@@ -8,7 +8,7 @@ public class LeftCanvasPanel extends JPanel {
 
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage subCanvas;
-    private int subCanvasX, subCanvasY;
+    private int subCanvasX, subCanvasY, centerX, centerY;
     private Graphics2D g2d;
 
     public LeftCanvasPanel() {
@@ -21,11 +21,28 @@ public class LeftCanvasPanel extends JPanel {
         repaint();
     }
 
+    public void centerItemInSubCanvas(CreationItem item) {
+        if (subCanvas == null) {
+            return;
+        }
+
+        centerX = (subCanvas.getWidth() - item.getWidth()) / 2;
+        centerY = (subCanvas.getHeight() - item.getHeight()) / 2;
+        item.setPosition(centerX, centerY);
+    }
+
     public void newSubCanvas(int width, int height) {
         subCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g2d = subCanvas.createGraphics();
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, width, height);
+
+        for (int i = 0; i < items.size(); i++) {
+            CreationItem item = items.get(i);
+            centerItemInSubCanvas(item);
+            item.draw(g2d);
+        }
+
         g2d.dispose();
 
         subCanvasX = (getWidth() - width) / 2;

@@ -18,7 +18,7 @@ public class ToolBar {
         JButton addButton = createIconButton("images/add.png", "Add");
         addButton.addActionListener(e -> {
             addListener.openAddDialog();
-            System.out.println("add button clicked");
+    
         });
 
         JButton designButton = createIconButton("images/design.png", "Design");
@@ -28,7 +28,6 @@ public class ToolBar {
 
         JButton resizeButton = createIconButton("images/resize.png", "Resize");
         resizeButton.addActionListener(e -> {
-            System.out.println("Resize button clicked");
         });
 
         toolBar.add(fileButton);
