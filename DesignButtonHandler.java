@@ -1,16 +1,25 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class DesignButtonHandler {
     
     private Component parentComponent;
-    private JFileChooser folderChooser;
+    private LeftCanvasPanel leftCanvas;
+    private JFileChooser folderChooser, imageChooser;
     private File libraryDir = new File("library");
-    private int result;
+    private int result, imageResult;
+    private File selectedFolder, selectedImageFile;
+    private String folderName;
+    private CreationItem newCreation;
 
-    public DesignButtonHandler(Component parentComponent) {
+    public DesignButtonHandler(Component parentComponent, LeftCanvasPanel leftCanvas) {
         this.parentComponent = parentComponent;
+        this.leftCanvas = leftCanvas;
     }
 
     public void openDesignLibrary() {
@@ -24,5 +33,38 @@ public class DesignButtonHandler {
         folderChooser.setApproveButtonText("Select Folder");
 
         result = folderChooser.showOpenDialog(parentComponent);
+        if (result != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        selectedFolder = folderChooser.getSelectedFile();
+        folderName = selectedFolder.getName().toLowerCase();
+        imageChooser = new JFileChooser(selectedFolder);
+        imageChooser.setDialogTitle("Select An Image To Insert");
+        imageChooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "png"));
+
+        imageResult = imageChooser.showOpenDialog(parentComponent);
+        if (imageResult != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        selectedImageFile = imageChooser.getSelectedFile();
+
+        try {
+            BufferedImage image = ImageIO.read(selectedImageFile);
+            if (image == null) {
+                JOptionPane.showMessageDialog(parentComponent, "Faild To Load Image.");
+                return;
+            }
+
+            if (folderName.equals("animal")) {
+                newCreation = new AnimalItems(image, 10, 10);
+            } else if (folderName.equals("flower")) {
+                newCreation = new FlowerItems(image, 10, 10);
+            }
+            leftCanvas.addImageToSubCanvas(newCreation);
+        } catch (IOException error) {
+            JOptionPane.showMessageDialog(parentComponent, "Error loading image: " + error.getMessage());
+        }
     }
 }

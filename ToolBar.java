@@ -4,7 +4,7 @@ import java.awt.*;
 public class ToolBar {
     private JToolBar toolBar;
 
-    public ToolBar(FileButtonHandler fileListener, PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
+    public ToolBar(FileButtonHandler fileListener, AddButtonHandler addListener, DesignButtonHandler designListener, PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBackground(new Color(173, 216, 230));
@@ -15,9 +15,15 @@ public class ToolBar {
             fileListener.openFileDialog();
         });
 
+        JButton addButton = createIconButton("images/add.png", "Add");
+        addButton.addActionListener(e -> {
+            addListener.openAddDialog();
+            System.out.println("add button clicked");
+        });
+
         JButton designButton = createIconButton("images/design.png", "Design");
         designButton.addActionListener(e -> {
-            System.out.println("Design button clicked");
+            designListener.openDesignLibrary();
         });
 
         JButton resizeButton = createIconButton("images/resize.png", "Resize");
@@ -26,6 +32,7 @@ public class ToolBar {
         });
 
         toolBar.add(fileButton);
+        toolBar.add(addButton);
         toolBar.add(designButton);
         toolBar.add(resizeButton);
 

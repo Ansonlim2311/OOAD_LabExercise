@@ -13,9 +13,11 @@ public class DrawingProgram extends JFrame {
 		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
 		RightCanvasPanel rightCanvas = new RightCanvasPanel(penHandler, eraserHandler);
 		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
+		AddButtonHandler addHandler = new AddButtonHandler(this, leftCanvas);
+		DesignButtonHandler designHandler = new DesignButtonHandler(this, leftCanvas);
 		RefreshButtonHandler refreshHandler = new RefreshButtonHandler(this, rightCanvas);
 
-		ToolBar toolBar = new ToolBar(fileHandler, penHandler, eraserHandler, refreshHandler);
+		ToolBar toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, eraserHandler, refreshHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
 
 		JSplitPane splitPane = new JSplitPane(
