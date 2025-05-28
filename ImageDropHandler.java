@@ -34,15 +34,9 @@
 //                             return false;
 //                         }
 
-//                         // Get image width and height
-//                         int imgW = img.getWidth();
-//                         int imgH = img.getHeight();
+//                         int centerX =  leftCanvas.getSubCanvasWidth() + (leftCanvas.getSubCanvasWidth() - img.getWidth()) / 2;
+//                         int centerY = leftCanvas.getSubCanvasY() + (leftCanvas.getSubCanvasHeight() - img.getHeight()) / 2;
 
-//                         // Calculate center position for subcanvas
-//                         int centerX = (leftCanvas.getSubCanvasWidth() - imgW) / 2;
-//                         int centerY = (leftCanvas.getSubCanvasHeight() - imgH) / 2;
-
-//                         // Create a CustomImage item and set position
 //                         CreationItem item = new CustomImage(img, centerX, centerY);
 
 //                         // Add it to the subcanvas

@@ -7,11 +7,12 @@ import javax.swing.*;
 public class LeftCanvasPanel extends JPanel {
 
     private List<CreationItem> items = new ArrayList<>();
-    private BufferedImage subCanvas;
+    private BufferedImage subCanvas, outputImage;
     private int subCanvasX, subCanvasY, centerX, centerY;
     private Graphics2D g2d;
 
     public LeftCanvasPanel() {
+        // setTransferHandler(new ImageDropHandler());
         setPreferredSize(new Dimension(400, 600));
         setBackground(Color.LIGHT_GRAY);
     }
@@ -90,21 +91,40 @@ public class LeftCanvasPanel extends JPanel {
         g.dispose();
     }
 
-    public BufferedImage getComposedImage() {
-
-        BufferedImage composed = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gra2D = composed.createGraphics();
-
-        if (subCanvas != null) {
-            gra2D.drawImage(subCanvas, 0, 0, null);
+    public BufferedImage getComposedImage(boolean JPG) {
+        if (subCanvas == null) {
+            JOptionPane.showMessageDialog(this, "No subcanvas found to compose image.");
+            return null;
         }
 
+        if (JPG == true) {
+            outputImage = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+        } else {
+            outputImage = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        }
+
+        Graphics2D gra2D = outputImage.createGraphics();
+
+        if (JPG == true) {
+            gra2D.setColor(Color.WHITE);
+            gra2D.fillRect(0, 0, subCanvas.getWidth(), subCanvas.getHeight());
+        }
+
+        gra2D.translate(-subCanvasX, -subCanvasY);
         for(int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
             item.draw(gra2D);
         }
         gra2D.dispose();
-        return composed;
+        return outputImage;
+    }
+
+    public BufferedImage getPNGCanvasImage() {
+        return getComposedImage(false);
+    }
+
+    public BufferedImage getJPGCanvasImage() {
+        return getComposedImage(true);
     }
 
     public BufferedImage getSubCanvas() {

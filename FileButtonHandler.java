@@ -72,8 +72,13 @@ public class FileButtonHandler {
 
         try {
             imageToBeSaved = null;
-            if(canvasSelection.equals("Left Canvas")) {
-                imageToBeSaved = leftCanvas.getComposedImage();
+            if (canvasSelection.equals("Left Canvas")) {
+                if (formatSelection == "PNG") {
+                    imageToBeSaved = leftCanvas.getPNGCanvasImage();
+                }
+                else if (formatSelection == "JPG") {
+                    imageToBeSaved = leftCanvas.getJPGCanvasImage();
+                }
             }
             else if (canvasSelection.equals("Right Canvas")) {
                 if (formatSelection == "PNG") {

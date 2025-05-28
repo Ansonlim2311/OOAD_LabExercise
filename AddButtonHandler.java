@@ -13,7 +13,13 @@ public class AddButtonHandler {
 
     public void openAddDialog() {
         String widthStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas width:", "400");
+        if (widthStr == null) {
+            return;
+        }
         String heightStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas height:", "400");
+        if (heightStr == null) {
+            return;
+        }
 
         try {
             int width = Integer.parseInt(widthStr);
