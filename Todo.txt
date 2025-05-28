@@ -1,7 +1,4 @@
 2. Support for Multiple Creation Types
-• Allow left canvas creation with specification like width and height. 
-• Allow users to add animal and flower images onto the left canvas from a library 
-of collections.
 • Both are types of creation, and in future, the application should be able to expand 
 with more creation types.
 • Implement using inheritance or interface. For example, both AnimalItem and 
@@ -11,9 +8,6 @@ interface.
 4. Enhanced Toolbar with Icon-Based Controls
 Design a toolbar with icon-based buttons (using JToolBar, JButton, and relevant icons) 
 that supports the following:
-• Create left canvas
-• Insert animal image (from library collection)
-• Insert flower image (from library collection)
 • Add the custom image to the composition canvas (from library collection)
 Toolbar should be built using modular methods to keep code clean and extensible.
 

@@ -74,4 +74,16 @@ public class LeftCanvasPanel extends JPanel {
         gra2D.dispose();
         return composed;
     }
+
+    public BufferedImage getSubCanvas() {
+        return subCanvas;
+    }
+
+    public int getSubCanvasWidth() {
+        return subCanvas.getWidth();
+    }
+
+    public int getSubCanvasHeight() {
+        return subCanvas.getHeight();
+    }
 }
