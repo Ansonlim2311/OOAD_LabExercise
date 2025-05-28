@@ -12,10 +12,11 @@ public class DesignButtonHandler {
     private LeftCanvasPanel leftCanvas;
     private JFileChooser folderChooser, imageChooser;
     private File libraryDir = new File("library");
-    private int result, imageResult, canvasWidth, canvasHeight, x, y;
+    private int result, imageResult, x, y;
     private File selectedFolder, selectedImageFile;
     private String folderName;
     private CreationItem newCreation;
+    private BufferedImage image;
 
     public DesignButtonHandler(Component parentComponent, LeftCanvasPanel leftCanvas) {
         this.parentComponent = parentComponent;
@@ -51,7 +52,7 @@ public class DesignButtonHandler {
         selectedImageFile = imageChooser.getSelectedFile();
 
         try {
-            BufferedImage image = ImageIO.read(selectedImageFile);
+            image = ImageIO.read(selectedImageFile);
             if (image == null) {
                 JOptionPane.showMessageDialog(parentComponent, "Faild To Load Image.");
                 return;
@@ -68,11 +69,8 @@ public class DesignButtonHandler {
                 newCreation = new FlowerItems(image, 10, 10);
             }
 
-            canvasWidth = leftCanvas.getSubCanvasWidth();
-            canvasHeight = leftCanvas.getSubCanvasHeight();
-
-            x = (canvasWidth - newCreation.getWidth()) / 2;
-            y = (canvasHeight - newCreation.getHeight()) / 2;
+            x = (leftCanvas.getSubCanvasWidth() - newCreation.getWidth()) / 2;
+            y = (leftCanvas.getSubCanvasHeight() - newCreation.getHeight()) / 2;
 
             newCreation.setPosition(x, y);
             leftCanvas.addImageToSubCanvas(newCreation);

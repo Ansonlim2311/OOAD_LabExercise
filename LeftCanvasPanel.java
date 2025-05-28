@@ -8,6 +8,7 @@ public class LeftCanvasPanel extends JPanel {
 
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage subCanvas;
+    private int subCanvasX, subCanvasY;
 
     public LeftCanvasPanel() {
         setPreferredSize(new Dimension(400, 600));
@@ -26,8 +27,11 @@ public class LeftCanvasPanel extends JPanel {
         g2d.fillRect(0, 0, width, height);
         g2d.dispose();
 
-        setPreferredSize(new Dimension(width, height));
-        revalidate();
+        subCanvasX = (getWidth() - width) / 2;
+        subCanvasY = (getHeight() - height) / 2;
+
+        // setPreferredSize(new Dimension(width, height));
+        // revalidate();
         repaint();
     }
 
@@ -46,11 +50,13 @@ public class LeftCanvasPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (subCanvas != null) {
-            g2d.drawImage(subCanvas, 0, 40, null);
+            g2d.drawImage(subCanvas, subCanvasX, subCanvasY, null);
         }
         for(int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
+            g2d.translate(subCanvasX, subCanvasY);
             item.draw(g2d);
+            g2d.translate(-subCanvasX, -subCanvasY);
         }
         g.setColor(Color.BLACK);
         g.drawString("Left Canvas (Image Composition)", 10, 20);
@@ -85,5 +91,13 @@ public class LeftCanvasPanel extends JPanel {
 
     public int getSubCanvasHeight() {
         return subCanvas.getHeight();
+    }
+
+    public int getSubCanvasX() {
+        return subCanvasX;
+    }
+
+    public int getSubCanvasY() {
+        return subCanvasY;
     }
 }

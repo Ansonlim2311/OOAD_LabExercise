@@ -15,13 +15,19 @@ class FlowerItems extends AbstractCreationItem {
     }
 
     @Override
-    public int getWidth() { return image.getWidth(null); }
+    public int getWidth() { 
+        return image.getWidth(null); 
+    }
 
     @Override
-    public int getHeight() { return image.getHeight(null); }
+    public int getHeight() { 
+        return image.getHeight(null); 
+    }
 
     @Override
-    protected Image getImage() { return image; }
+    protected Image getImage() { 
+        return image; 
+    }
 
     @Override
     public void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight) {
