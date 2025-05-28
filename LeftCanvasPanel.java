@@ -36,13 +36,13 @@ public class LeftCanvasPanel extends JPanel {
     }
 
     public void addImageToSubCanvas(CreationItem item) {
-    if (subCanvas == null) {
-        return;
-    }
-    Graphics2D g2d = subCanvas.createGraphics();
-    item.draw(g2d);
-    g2d.dispose();
-    repaint();
+        if (subCanvas == null) {
+            return;
+        }
+        Graphics2D g2d = subCanvas.createGraphics();
+        item.draw(g2d);
+        g2d.dispose();
+        repaint();
 }
 
     @Override
@@ -52,12 +52,13 @@ public class LeftCanvasPanel extends JPanel {
         if (subCanvas != null) {
             g2d.drawImage(subCanvas, subCanvasX, subCanvasY, null);
         }
+        g2d.translate(subCanvasX, subCanvasY);
         for(int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
-            g2d.translate(subCanvasX, subCanvasY);
             item.draw(g2d);
-            g2d.translate(-subCanvasX, -subCanvasY);
         }
+        g2d.translate(-subCanvasX, -subCanvasY);
+        
         g.setColor(Color.BLACK);
         g.drawString("Left Canvas (Image Composition)", 10, 20);
     }
