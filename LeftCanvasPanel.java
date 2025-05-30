@@ -12,7 +12,7 @@ public class LeftCanvasPanel extends JPanel {
     private Graphics2D g2d;
 
     public LeftCanvasPanel() {
-        // setTransferHandler(new ImageDropHandler());
+        setTransferHandler(new ImageDropHandler());
         setPreferredSize(new Dimension(400, 600));
         setBackground(Color.LIGHT_GRAY);
     }

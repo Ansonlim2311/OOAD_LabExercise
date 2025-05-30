@@ -23,10 +23,6 @@ public class FileButtonHandler {
     }
 
     public void openFileDialog() {
-        showSaveDialog();
-    }
-
-    private void showSaveDialog() {
         String[] options = {"Left Canvas", "Right Canvas", "Both"};
         canvasSelection = (String) JOptionPane.showInputDialog(
             parentComponent,
@@ -99,6 +95,7 @@ public class FileButtonHandler {
             JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
         }
     }
+    
     private boolean saveChange() {
         rightCanvas.setUnsavedChange();
         return true;

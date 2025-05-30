@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AddButtonHandler {
-    
     private Component parentComponent;
     private LeftCanvasPanel leftCanvas;
+    private String widthStr, heightStr;
+    private int width, height;
 
     AddButtonHandler(Component parentComponent, LeftCanvasPanel leftCanvas) {
         this.parentComponent = parentComponent;
@@ -12,18 +13,18 @@ public class AddButtonHandler {
     }
 
     public void openAddDialog() {
-        String widthStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas width:", "400");
+        widthStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas width:", "400");
         if (widthStr == null) {
             return;
         }
-        String heightStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas height:", "400");
+        heightStr = JOptionPane.showInputDialog(parentComponent, "Enter canvas height:", "400");
         if (heightStr == null) {
             return;
         }
 
         try {
-            int width = Integer.parseInt(widthStr);
-            int height = Integer.parseInt(heightStr);
+            width = Integer.parseInt(widthStr);
+            height = Integer.parseInt(heightStr);
 
             if (width <= 0 || height <= 0) {
                 JOptionPane.showMessageDialog(parentComponent, "Width and height must be positive numbers.");

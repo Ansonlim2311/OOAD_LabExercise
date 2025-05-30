@@ -10,51 +10,63 @@ public class ToolBar {
         toolBar.setBackground(new Color(173, 216, 230));
         toolBar.setLayout(new BoxLayout(toolBar, BoxLayout.X_AXIS));
 
-        JButton fileButton = createIconButton("images/file.png", "File");
-        fileButton.addActionListener(e -> {
-            fileListener.openFileDialog();
-        });
-
-        JButton addButton = createIconButton("images/add.png", "Add");
-        addButton.addActionListener(e -> {
-            addListener.openAddDialog();
-    
-        });
-
-        JButton designButton = createIconButton("images/design.png", "Design");
-        designButton.addActionListener(e -> {
-            designListener.openDesignLibrary();
-        });
-
-        JButton resizeButton = createIconButton("images/resize.png", "Resize");
-        resizeButton.addActionListener(e -> {
-        });
-
-        toolBar.add(fileButton);
-        toolBar.add(addButton);
-        toolBar.add(designButton);
-        toolBar.add(resizeButton);
-
+        addLeftSideButtons(fileListener, addListener, designListener);
         toolBar.add(Box.createHorizontalGlue());
+        addRightSideButtons(penListener, eraserListener, refreshListener);
+    }
 
-        JButton penButton = createIconButton("images/pen.png", "Pen");
-        penButton.addActionListener(e -> {
-            penListener.openPenDialog();
-        });
+    private void addLeftSideButtons(FileButtonHandler fileListener, AddButtonHandler addListener, DesignButtonHandler designListener) {
+        toolBar.add(createFileButton(fileListener));
+        toolBar.add(createAddButton(addListener));
+        toolBar.add(createDesignButton(designListener));
+        toolBar.add(createResizeButton());
+    }
 
-        JButton eraserButton = createIconButton("images/eraser.png", "Eraser");
-        eraserButton.addActionListener(e -> {
-            eraserListener.activeEraser(eraserButton);
-        });
+    private void addRightSideButtons(PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
+        toolBar.add(createPenButton(penListener));
+        toolBar.add(createEraserButton(eraserListener));
+        toolBar.add(createRefreshButton(refreshListener));
+    }
 
-        JButton refreshButton = createIconButton("images/refresh.png", "Refresh");
-        refreshButton.addActionListener(e -> {
-            refreshListener.handlerRefresh();
-        });
+        private JButton createFileButton(FileButtonHandler listener) {
+        JButton button = createIconButton("images/file.png", "File");
+        button.addActionListener(e -> listener.openFileDialog());
+        return button;
+    }
 
-        toolBar.add(penButton);
-        toolBar.add(eraserButton);
-        toolBar.add(refreshButton);
+    private JButton createAddButton(AddButtonHandler listener) {
+        JButton button = createIconButton("images/add.png", "Add");
+        button.addActionListener(e -> listener.openAddDialog());
+        return button;
+    }
+
+    private JButton createDesignButton(DesignButtonHandler listener) {
+        JButton button = createIconButton("images/design.png", "Design");
+        button.addActionListener(e -> listener.openDesignLibrary());
+        return button;
+    }
+
+    private JButton createResizeButton() {
+        return createIconButton("images/resize.png", "Resize");
+        // Add listener logic when implemented
+    }
+
+    private JButton createPenButton(PenButtonHandler listener) {
+        JButton button = createIconButton("images/pen.png", "Pen");
+        button.addActionListener(e -> listener.openPenDialog());
+        return button;
+    }
+
+    private JButton createEraserButton(EraserButtonHandler listener) {
+        JButton button = createIconButton("images/eraser.png", "Eraser");
+        button.addActionListener(e -> listener.activeEraser(button));
+        return button;
+    }
+
+    private JButton createRefreshButton(RefreshButtonHandler listener) {
+        JButton button = createIconButton("images/refresh.png", "Refresh");
+        button.addActionListener(e -> listener.handlerRefresh());
+        return button;
     }
 
     private JButton createIconButton(String iconPath, String toolTip) {

@@ -3,19 +3,28 @@ import javax.swing.*;
 
 public class DrawingProgram extends JFrame {
 
+		PenButtonHandler penHandler;
+		EraserButtonHandler eraserHandler;
+		LeftCanvasPanel leftCanvas;
+		RightCanvasPanel rightCanvas;
+		FileButtonHandler fileHandler;
+		AddButtonHandler addHandler;
+		DesignButtonHandler designHandler;
+		RefreshButtonHandler refreshHandler;
+
 	public DrawingProgram() {
 		super("Drawing Studio Pro");
 		setSize(800,600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		PenButtonHandler penHandler = new PenButtonHandler(this);
-		EraserButtonHandler eraserHandler = new EraserButtonHandler();
-		LeftCanvasPanel leftCanvas = new LeftCanvasPanel();
-		RightCanvasPanel rightCanvas = new RightCanvasPanel(penHandler, eraserHandler);
-		FileButtonHandler fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
-		AddButtonHandler addHandler = new AddButtonHandler(this, leftCanvas);
-		DesignButtonHandler designHandler = new DesignButtonHandler(this, leftCanvas);
-		RefreshButtonHandler refreshHandler = new RefreshButtonHandler(this, rightCanvas);
+		penHandler = new PenButtonHandler(this);
+		eraserHandler = new EraserButtonHandler();
+		leftCanvas = new LeftCanvasPanel();
+		rightCanvas = new RightCanvasPanel(penHandler, eraserHandler);
+		fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
+		addHandler = new AddButtonHandler(this, leftCanvas);
+		designHandler = new DesignButtonHandler(this, leftCanvas);
+		refreshHandler = new RefreshButtonHandler(this, rightCanvas);
 
 		ToolBar toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, eraserHandler, refreshHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);

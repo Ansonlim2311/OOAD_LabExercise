@@ -3,8 +3,11 @@ import java.awt.*;
 
 public class PenButtonHandler{
     private JFrame parentFrame;
+    private JDialog paletteDialog;
+    private JColorChooser colourChooser;
     private Color penColor = new Color(0, 0, 0);
     private int penSize = 4;
+    private Color newColor;
     private JSlider penSizeSlider = new JSlider(JSlider.HORIZONTAL, 1, 30, penSize);
 
     public PenButtonHandler(JFrame parentFrame) {
@@ -12,12 +15,12 @@ public class PenButtonHandler{
     }
 
     public void openPenDialog() {
-        JDialog paletteDialog = new JDialog(parentFrame, "Pen Setting", false);
+        paletteDialog = new JDialog(parentFrame, "Pen Setting", false);
         paletteDialog.setLayout(new BorderLayout(10, 10));
 
-        JColorChooser colourChooser = new JColorChooser(penColor);
+        colourChooser = new JColorChooser(penColor);
         colourChooser.getSelectionModel().addChangeListener(e -> {
-            Color newColor = colourChooser.getColor();
+            newColor = colourChooser.getColor();
             if (newColor != null) {
                 penColor = newColor;
             }

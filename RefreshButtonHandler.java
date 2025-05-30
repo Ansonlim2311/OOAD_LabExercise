@@ -5,8 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-public class RefreshButtonHandler {
-    
+public class RefreshButtonHandler { 
     private RightCanvasPanel rightCanvas;
     private Component parentComponent;
     private int choice;
@@ -16,6 +15,7 @@ public class RefreshButtonHandler {
     private File folder, outputFile;
     private String filename;
     private BufferedImage imageToBeSaved;
+    private Boolean saved;
 
     public RefreshButtonHandler(Component parentComponent, RightCanvasPanel rightCanvas) {
         this.parentComponent = parentComponent;
@@ -38,7 +38,7 @@ public class RefreshButtonHandler {
             return;
         }
         if (choice == JOptionPane.YES_OPTION) {
-            boolean saved = saveChange();
+            saved = saveChange();
             saveRightCanvas();
             if (saved) {
                 rightCanvas.clearCanvas();

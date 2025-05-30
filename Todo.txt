@@ -18,8 +18,6 @@ independently.
 • Add rotation sliders or gesture-based rotation using MouseMotionListener.
 
 6. Canvas Composition
-• Allow the left canvas (along with its contents) to be merged into a new canvas
-(Can be done by saving the old canvas and then composing into a new canvas).
 • The resulting composed canvased should also be rotatable.
 
 7. Mouse-Driven Transformations

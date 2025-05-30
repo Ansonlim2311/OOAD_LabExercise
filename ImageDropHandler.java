@@ -1,54 +1,71 @@
-// import javax.imageio.ImageIO;
-// import javax.swing.*;
-// import java.awt.image.BufferedImage;
-// import java.awt.datatransfer.DataFlavor;
-// import java.io.File;
-// import java.io.IOException;
-// import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.awt.datatransfer.DataFlavor;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.awt.datatransfer.UnsupportedFlavorException;
 
-// public class ImageDropHandler extends TransferHandler {
-    
-//     public boolean canImport(TransferSupport support) {
-//         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
-//     }
+public class ImageDropHandler extends TransferHandler {
+    private String fileName;
+    private Object fileObject;
+    private File file;
+    private BufferedImage image;
+    private LeftCanvasPanel leftCanvas;
+    private int centerX, centerY, absoluteX, absoluteY;
+    private CreationItem item;
 
-//     @Override
-//     public boolean importData(TransferSupport support) {
-//         if (canImport(support) == false) {
-//             return false;
-//         }
+    @Override
+    public boolean canImport(TransferSupport support) {
+        return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+    }
 
-//         try {
-//             List<File> files = (List<File>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-//             for (int i = 0; i < files.size(); i++) {
-//                 File file = files.get(i);
-//                 String name = file.getName().toLowerCase();
+    @Override
+    public boolean importData(TransferSupport support) {
+        if (canImport(support) == false) {
+            return false;
+        }
 
-//                 if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg")) {
-//                     BufferedImage img = ImageIO.read(file);
-//                     if (img != null) {
-//                         LeftCanvasPanel leftCanvas = (LeftCanvasPanel) support.getComponent();
+        try {
+            fileObject = support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+            if (fileObject instanceof List<?> == false) {
+                return false;
+            }
 
-//                         if (leftCanvas.getSubCanvas() == null) {
-//                             JOptionPane.showMessageDialog(leftCanvas, "Please create a subcanvas first!");
-//                             return false;
-//                         }
+            @SuppressWarnings("unchecked")
+            List<File> files = (List<File>) fileObject;
 
-//                         int centerX =  leftCanvas.getSubCanvasWidth() + (leftCanvas.getSubCanvasWidth() - img.getWidth()) / 2;
-//                         int centerY = leftCanvas.getSubCanvasY() + (leftCanvas.getSubCanvasHeight() - img.getHeight()) / 2;
+            for (int i = 0; i < files.size(); i++) {
+                file = files.get(i);
+                fileName = file.getName().toLowerCase();
 
-//                         CreationItem item = new CustomImage(img, centerX, centerY);
+                if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+                    image = ImageIO.read(file);
+                    if (image != null) {
+                        leftCanvas = (LeftCanvasPanel) support.getComponent();
 
-//                         // Add it to the subcanvas
-//                         leftCanvas.addImageToSubCanvas(item);
-//                     }
-//                 }
-//             }
-//             return true;
+                        if (leftCanvas.getSubCanvas() == null) {
+                            JOptionPane.showMessageDialog(leftCanvas, "Please create a subcanvas first!");
+                            return false;
+                        }
 
-//         } catch (IOException error) {
-//             error.printStackTrace();
-//             return false;
-//         }
-//     }
-// }
+                        centerX = (leftCanvas.getSubCanvasWidth() - image.getWidth()) / 2;
+                        centerY = (leftCanvas.getSubCanvasHeight() - image.getHeight()) / 2;
+
+                        absoluteX = leftCanvas.getSubCanvasX() + centerX;
+                        absoluteY = leftCanvas.getSubCanvasY() + centerY;
+
+                        item = new CustomImage(image, absoluteX, absoluteY);
+                        leftCanvas.addImageToSubCanvas(item);
+                    }
+                }
+            }
+            return true;
+
+        } catch (IOException | UnsupportedFlavorException error) {
+            error.printStackTrace();
+            return false;
+        }
+    }
+}

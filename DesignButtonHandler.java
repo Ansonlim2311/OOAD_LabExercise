@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class DesignButtonHandler {
-    
     private Component parentComponent;
     private LeftCanvasPanel leftCanvas;
     private JFileChooser folderChooser, imageChooser;
