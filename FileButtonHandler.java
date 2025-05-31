@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class FileButtonHandler {
     private Component parentComponent;
     private LeftCanvasPanel leftCanvas;
+    private LeftSubCanvas subCanvas;
     private RightCanvasPanel rightCanvas;
     private String canvasSelection,formatSelection;
     private JFileChooser folderChooser = new JFileChooser("library");
@@ -69,11 +70,12 @@ public class FileButtonHandler {
         try {
             imageToBeSaved = null;
             if (canvasSelection.equals("Left Canvas")) {
+                subCanvas = leftCanvas.getSubCanvas();
                 if (formatSelection == "PNG") {
-                    imageToBeSaved = leftCanvas.getPNGCanvasImage();
+                    imageToBeSaved = subCanvas.getPNGCanvasImage();
                 }
                 else if (formatSelection == "JPG") {
-                    imageToBeSaved = leftCanvas.getJPGCanvasImage();
+                    imageToBeSaved = subCanvas.getJPGCanvasImage();
                 }
             }
             else if (canvasSelection.equals("Right Canvas")) {

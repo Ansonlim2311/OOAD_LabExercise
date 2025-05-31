@@ -9,6 +9,7 @@ import java.io.IOException;
 public class DesignButtonHandler {
     private Component parentComponent;
     private LeftCanvasPanel leftCanvas;
+    private LeftSubCanvas subCanvas;
     private JFileChooser folderChooser, imageChooser;
     private File libraryDir = new File("library");
     private int result, imageResult, x, y;
@@ -57,8 +58,14 @@ public class DesignButtonHandler {
                 return;
             }
 
-            if (leftCanvas.getSubCanvas() == null) {
+            if (leftCanvas.hasSubCanvas() == false) {
                 JOptionPane.showMessageDialog(parentComponent, "Please create a canvas first using the Add button.");
+                return;
+            }
+
+            subCanvas = leftCanvas.getSubCanvas();
+            if (subCanvas == null) {
+                JOptionPane.showMessageDialog(parentComponent, "No subcanvas found. Please create one first.");
                 return;
             }
 
@@ -68,11 +75,12 @@ public class DesignButtonHandler {
                 newCreation = new FlowerItems(image, 10, 10);
             }
 
-            x = (leftCanvas.getSubCanvasWidth() - newCreation.getWidth()) / 2;
-            y = (leftCanvas.getSubCanvasHeight() - newCreation.getHeight()) / 2;
+            x = (subCanvas.getSubCanvasWidth() - newCreation.getWidth()) / 2;
+            y = (subCanvas.getSubCanvasHeight() - newCreation.getHeight()) / 2;
 
             newCreation.setPosition(x, y);
-            leftCanvas.addImageToSubCanvas(newCreation);
+            subCanvas.addItem(newCreation);
+            leftCanvas.repaint();
             
         } catch (IOException error) {
             JOptionPane.showMessageDialog(parentComponent, "Error loading image: " + error.getMessage());

@@ -6,13 +6,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 
-public class leftSubCanvas {
+public class LeftSubCanvas {
     private int x, y, centerX, centerY, width, height;
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage canvas, outputImage;
     private Graphics2D whiteCanvas, picture;
 
-    public leftSubCanvas(int width, int height) {
+    public LeftSubCanvas(int width, int height) {
         this.width = width;
         this.height = height;
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -20,9 +20,6 @@ public class leftSubCanvas {
         whiteCanvas.setColor(Color.WHITE);
         whiteCanvas.fillRect(0, 0, width, height);
         whiteCanvas.dispose();
-
-        // this.x = (leftCanvasWidth - width) / 2;
-        // this.y = (leftCanvasHeight - height) / 2;
     }
 
     public void addItem(CreationItem item) {
@@ -86,5 +83,21 @@ public class leftSubCanvas {
 
     public List<CreationItem> getItems() {
         return new ArrayList<>(items);
+    }
+
+    public int getSubCanvasWidth() {
+        return width;
+    }
+
+    public int getSubCanvasHeight() {
+        return height;
+    }
+
+    public int getSubCanvasX() {
+        return x;
+    }
+
+    public int getSubCanvasY() {
+        return y;
     }
 }

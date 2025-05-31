@@ -13,6 +13,7 @@ public class ImageDropHandler extends TransferHandler {
     private File file;
     private BufferedImage image;
     private LeftCanvasPanel leftCanvas;
+    private LeftSubCanvas subCanvas;
     private int centerX, centerY, absoluteX, absoluteY;
     private CreationItem item;
 
@@ -44,20 +45,22 @@ public class ImageDropHandler extends TransferHandler {
                     image = ImageIO.read(file);
                     if (image != null) {
                         leftCanvas = (LeftCanvasPanel) support.getComponent();
+                        subCanvas = leftCanvas.getSubCanvas();
 
-                        if (leftCanvas.getSubCanvas() == null) {
+                        if (leftCanvas.hasSubCanvas() == false) {
                             JOptionPane.showMessageDialog(leftCanvas, "Please create a subcanvas first!");
                             return false;
                         }
 
-                        centerX = (leftCanvas.getSubCanvasWidth() - image.getWidth()) / 2;
-                        centerY = (leftCanvas.getSubCanvasHeight() - image.getHeight()) / 2;
+                        centerX = (subCanvas.getSubCanvasWidth() - image.getWidth()) / 2;
+                        centerY = (subCanvas.getSubCanvasHeight() - image.getHeight()) / 2;
 
-                        absoluteX = leftCanvas.getSubCanvasX() + centerX;
-                        absoluteY = leftCanvas.getSubCanvasY() + centerY;
+                        absoluteX = subCanvas.getSubCanvasX() + centerX;
+                        absoluteY = subCanvas.getSubCanvasY() + centerY;
 
                         item = new CustomImage(image, absoluteX, absoluteY);
-                        leftCanvas.addImageToSubCanvas(item);
+                        // leftCanvas.addImageToSubCanvas(item);
+                        subCanvas.addItem(item);
                     }
                 }
             }
