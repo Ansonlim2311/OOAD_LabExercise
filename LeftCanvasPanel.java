@@ -7,8 +7,8 @@ import javax.swing.*;
 public class LeftCanvasPanel extends JPanel {
 
     private List<CreationItem> items = new ArrayList<>();
-    private BufferedImage subCanvas, outputImage;
-    private int subCanvasX, subCanvasY, centerX, centerY;
+    private leftSubCanvas subCanvas;
+    private int subCanvasX, subCanvasY;
     private Graphics2D g2d;
 
     public LeftCanvasPanel() {
@@ -26,29 +26,20 @@ public class LeftCanvasPanel extends JPanel {
         if (subCanvas == null) {
             return;
         }
-
-        centerX = (subCanvas.getWidth() - item.getWidth()) / 2;
-        centerY = (subCanvas.getHeight() - item.getHeight()) / 2;
-        item.setPosition(centerX, centerY);
+        subCanvas.addItem(item);
     }
 
     public void newSubCanvas(int width, int height) {
-        subCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        g2d = subCanvas.createGraphics();
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, width, height);
+        subCanvasX = (getWidth() - width) / 2;
+        subCanvasY = (getHeight() - height) / 2;
+
+        subCanvas = new leftSubCanvas(width, height, getWidth(), getHeight());
 
         for (int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
             centerItemInSubCanvas(item);
             item.draw(g2d);
         }
-
-        g2d.dispose();
-
-        subCanvasX = (getWidth() - width) / 2;
-        subCanvasY = (getHeight() - height) / 2;
-
         repaint();
     }
 
@@ -56,7 +47,7 @@ public class LeftCanvasPanel extends JPanel {
         if (subCanvas == null) {
             return;
         }
-        items.add(item);
+        subCanvas.addItem(item);
         repaint();
 }
 
@@ -65,21 +56,7 @@ public class LeftCanvasPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         if (subCanvas != null) {
-
-            subCanvasX = (getWidth() - subCanvas.getWidth()) / 2;
-            subCanvasY = (getHeight() - subCanvas.getHeight()) / 2;
-            g2d.drawImage(subCanvas, subCanvasX, subCanvasY, null);
-
-            Shape oldClip = g2d.getClip();
-            g2d.setClip(subCanvasX, subCanvasY, subCanvas.getWidth(), subCanvas.getHeight());
-
-            g2d.translate(subCanvasX, subCanvasY);
-            for(int i = 0; i < items.size(); i++) {
-                CreationItem item = items.get(i);
-                item.draw(g2d);
-            }
-            g2d.translate(-subCanvasX, -subCanvasY);
-            g2d.setClip(oldClip);
+            subCanvas.draw(g2d);
         } else {
             for(int i = 0; i < items.size(); i++) {
                 CreationItem item = items.get(i);
@@ -96,27 +73,7 @@ public class LeftCanvasPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "No subcanvas found to compose image.");
             return null;
         }
-
-        if (JPG == true) {
-            outputImage = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_RGB);
-        } else {
-            outputImage = new BufferedImage(subCanvas.getWidth(), subCanvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        }
-
-        Graphics2D gra2D = outputImage.createGraphics();
-
-        if (JPG == true) {
-            gra2D.setColor(Color.WHITE);
-            gra2D.fillRect(0, 0, subCanvas.getWidth(), subCanvas.getHeight());
-        }
-
-        gra2D.translate(-subCanvasX, -subCanvasY);
-        for(int i = 0; i < items.size(); i++) {
-            CreationItem item = items.get(i);
-            item.draw(gra2D);
-        }
-        gra2D.dispose();
-        return outputImage;
+        return subCanvas.getComposedImage(JPG);
     }
 
     public BufferedImage getPNGCanvasImage() {
@@ -128,15 +85,19 @@ public class LeftCanvasPanel extends JPanel {
     }
 
     public BufferedImage getSubCanvas() {
-        return subCanvas;
+        if (subCanvas == null) {
+            JOptionPane.showMessageDialog(this, "No subcanvas found.");
+            return null;
+        }
+        return subCanvas.getPNGCanvasImage();
     }
 
     public int getSubCanvasWidth() {
-        return subCanvas.getWidth();
+        return subCanvas.getPNGCanvasImage().getWidth();
     }
 
     public int getSubCanvasHeight() {
-        return subCanvas.getHeight();
+        return subCanvas.getPNGCanvasImage().getHeight();
     }
 
     public int getSubCanvasX() {
