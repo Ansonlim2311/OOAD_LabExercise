@@ -1,16 +1,3 @@
-2. Support for Multiple Creation Types
-• Both are types of creation, and in future, the application should be able to expand 
-with more creation types.
-• Implement using inheritance or interface. For example, both AnimalItem and 
-FlowerItem should extend a common abstract class or implement a shared 
-interface.
-
-4. Enhanced Toolbar with Icon-Based Controls
-Design a toolbar with icon-based buttons (using JToolBar, JButton, and relevant icons) 
-that supports the following:
-• Add the custom image to the composition canvas (from library collection)
-Toolbar should be built using modular methods to keep code clean and extensible.
-
 5. Independent Rotation
 • Enable individual creation items (animals, flowers, custom images) to be rotated 
 independently.
@@ -26,6 +13,3 @@ following interactions:
 • Flip animal images 
 • Scale flower images proportionally through mouse interaction
 • Transpose (move) custom drawn images 
-
-8. File Operations
-• Support drag-and-drop image import into the canvas (from library collection).
