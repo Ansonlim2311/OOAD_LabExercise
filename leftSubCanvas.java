@@ -7,34 +7,39 @@ import javax.swing.JOptionPane;
 
 
 public class leftSubCanvas {
-    private int x, y, centerX, centerY;
+    private int x, y, centerX, centerY, width, height;
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage canvas, outputImage;
     private Graphics2D whiteCanvas, picture;
 
-    public leftSubCanvas(int width, int height, int leftCanvasWidth, int leftCanvasHeight) {
+    public leftSubCanvas(int width, int height) {
+        this.width = width;
+        this.height = height;
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         whiteCanvas = canvas.createGraphics();
         whiteCanvas.setColor(Color.WHITE);
         whiteCanvas.fillRect(0, 0, width, height);
         whiteCanvas.dispose();
 
-        this.x = (leftCanvasWidth - width) / 2;
-        this.y = (leftCanvasHeight - height) / 2;
+        // this.x = (leftCanvasWidth - width) / 2;
+        // this.y = (leftCanvasHeight - height) / 2;
     }
 
     public void addItem(CreationItem item) {
-        centerX = (canvas.getWidth() - item.getWidth()) / 2;
-        centerY = (canvas.getHeight() - item.getHeight()) / 2;
+        centerX = (width - item.getWidth()) / 2;
+        centerY = (height - item.getHeight()) / 2;
         item.setPosition(centerX, centerY);
         items.add(item);
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, int panelWidth, int panelHeight) {
+        x = (panelWidth - width) / 2;
+        y = (panelHeight - height) / 2;
+
         g.drawImage(canvas, x, y, null);
 
         Shape oldClip = g.getClip();
-        g.setClip(x, y, canvas.getWidth(), canvas.getHeight());
+        g.setClip(x, y, width, height);
         g.translate(x, y);
         for(int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
@@ -77,5 +82,9 @@ public class leftSubCanvas {
 
     public BufferedImage getJPGCanvasImage() {
         return getComposedImage(true);
+    }
+
+    public List<CreationItem> getItems() {
+        return new ArrayList<>(items);
     }
 }
