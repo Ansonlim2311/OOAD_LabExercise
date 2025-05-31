@@ -59,8 +59,8 @@ public class ImageDropHandler extends TransferHandler {
                         absoluteY = subCanvas.getSubCanvasY() + centerY;
 
                         item = new CustomImage(image, absoluteX, absoluteY);
-                        // leftCanvas.addImageToSubCanvas(item);
                         subCanvas.addItem(item);
+                        leftCanvas.repaint();
                     }
                 }
             }
