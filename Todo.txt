@@ -12,4 +12,3 @@ Utilize mouse listeners (MouseListener, MouseMotionListener) to provide the
 following interactions:
 • Flip animal images 
 • Scale flower images proportionally through mouse interaction
-• Transpose (move) custom drawn images 

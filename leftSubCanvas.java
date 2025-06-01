@@ -5,70 +5,127 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
-public class LeftSubCanvas extends JPanel {
-    private int centerX, centerY, width, height;
-    private List<CreationItem> items = new ArrayList<>();
-    private BufferedImage canvas, outputImage;
-    private Graphics2D whiteCanvas, picture, g2d;
-    private CreationItem item;
+public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionListener {
+    private int width, height, centerX, centerY;
+    private int pressMouseX, pressMouseY, dragOffsetX, dragOffsetY;
+    private List<CreationItem> itemList = new ArrayList<>();
+    private BufferedImage whiteBaseCanvas, outputImage;
+    private Graphics2D whiteCanvasGraphics, paintGraphics, imageGraphic;
+    private CreationItem currentItem;
+    private CreationItem selectedItem = null;
+    private int selectedItemX, selectedItemY, selectedItemWidth, selectedItemHeight;
 
     public LeftSubCanvas(int width, int height) {
         this.width = width;
         this.height = height;
 
-        canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        whiteCanvas = canvas.createGraphics();
-        whiteCanvas.setColor(Color.WHITE);
-        whiteCanvas.fillRect(0, 0, width, height);
-        whiteCanvas.dispose();
+        whiteBaseCanvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        whiteCanvasGraphics = whiteBaseCanvas.createGraphics();
+        whiteCanvasGraphics.setColor(Color.WHITE);
+        whiteCanvasGraphics.fillRect(0, 0, width, height);
+        whiteCanvasGraphics.dispose();
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
     }
 
     public void addItem(CreationItem item) {
         centerX = (width - item.getWidth()) / 2;
         centerY = (height - item.getHeight()) / 2;
         item.setPosition(centerX, centerY);
-        items.add(item);
+        itemList.add(item);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g2d = (Graphics2D) g.create();
+        paintGraphics = (Graphics2D) g.create();
 
-        g2d.drawImage(canvas, 0, 0, null);
+        paintGraphics.drawImage(whiteBaseCanvas, 0, 0, null);
 
-        for(int i = 0; i < items.size(); i++) {
-            item = items.get(i);
-            item.draw(g2d);
+        for(int i = 0; i < itemList.size(); i++) {
+            currentItem = itemList.get(i);
+            currentItem.draw(paintGraphics);
         }
     }
 
     public BufferedImage getComposedImage(boolean JPG) {
-        if (canvas == null) {
+        if (whiteBaseCanvas == null) {
             JOptionPane.showMessageDialog(null, "No subcanvas found to compose image.");
             return null;
         }
 
         if (JPG == true) {
-            outputImage = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_RGB);
+            outputImage = new BufferedImage(whiteBaseCanvas.getWidth(), whiteBaseCanvas.getHeight(), BufferedImage.TYPE_INT_RGB);
         } else {
-            outputImage = new BufferedImage(canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            outputImage = new BufferedImage(whiteBaseCanvas.getWidth(), whiteBaseCanvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
         }
 
-        picture = outputImage.createGraphics();
+        imageGraphic = outputImage.createGraphics();
 
         if (JPG == true) {
-            picture.setColor(Color.WHITE);
-            picture.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            imageGraphic.setColor(Color.WHITE);
+            imageGraphic.fillRect(0, 0, whiteBaseCanvas.getWidth(), whiteBaseCanvas.getHeight());
         }
 
-        for(int i = 0; i < items.size(); i++) {
-            item = items.get(i);
-            item.draw(picture);
+        for(int i = 0; i < itemList.size(); i++) {
+            currentItem = itemList.get(i);
+            currentItem.draw(imageGraphic);
         }
-        picture.dispose();
+        imageGraphic.dispose();
         return outputImage;
     }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        pressMouseX = e.getX();
+        pressMouseY = e.getY();
+
+        for (int i = itemList.size() - 1; i >= 0; i--) {
+            currentItem = itemList.get(i);
+            selectedItemX = currentItem.getX();
+            selectedItemY = currentItem.getY();
+            selectedItemWidth = currentItem.getWidth();
+            selectedItemHeight = currentItem.getHeight();
+
+            if (pressMouseX >= selectedItemX && pressMouseX <= selectedItemX + selectedItemWidth && pressMouseY >= selectedItemY && pressMouseY <= selectedItemY + selectedItemHeight) {
+                selectedItem = currentItem;
+                dragOffsetX = pressMouseX - selectedItemX;
+                dragOffsetY = pressMouseY - selectedItemY;
+                itemList.remove(i);
+                itemList.add(currentItem);
+                repaint();
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        selectedItem = null;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+
+    @Override
+    public void mouseExited(MouseEvent e) {}
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (selectedItem != null) {
+            pressMouseX = e.getX();
+            pressMouseY = e.getY();
+            selectedItem.setPosition(pressMouseX - dragOffsetX, pressMouseY - dragOffsetY);
+            repaint();
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {}
 
     public BufferedImage getPNGCanvasImage() {
         return getComposedImage(false);
@@ -79,7 +136,7 @@ public class LeftSubCanvas extends JPanel {
     }
 
     public List<CreationItem> getItems() {
-        return new ArrayList<>(items);
+        return new ArrayList<>(itemList);
     }
 
     public int getSubCanvasWidth() {
