@@ -1,13 +1,12 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
-import javax.swing.JOptionPane;
-
-
-public class LeftSubCanvas {
-    private int x, y, centerX, centerY, width, height;
+public class LeftSubCanvas extends JPanel{
+    private int centerX, centerY, width, height;
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage canvas, outputImage;
     private Graphics2D whiteCanvas, picture;
@@ -15,6 +14,7 @@ public class LeftSubCanvas {
     public LeftSubCanvas(int width, int height) {
         this.width = width;
         this.height = height;
+
         canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         whiteCanvas = canvas.createGraphics();
         whiteCanvas.setColor(Color.WHITE);
@@ -29,21 +29,17 @@ public class LeftSubCanvas {
         items.add(item);
     }
 
-    public void draw(Graphics2D g, int panelWidth, int panelHeight) {
-        x = (panelWidth - width) / 2;
-        y = (panelHeight - height) / 2;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create();
 
-        g.drawImage(canvas, x, y, null);
+        g2d.drawImage(canvas, 0, 0, null);
 
-        Shape oldClip = g.getClip();
-        g.setClip(x, y, width, height);
-        g.translate(x, y);
         for(int i = 0; i < items.size(); i++) {
             CreationItem item = items.get(i);
-            item.draw(g);
+            item.draw(g2d);
         }
-        g.translate(-x, -y);
-        g.setClip(oldClip);
     }
 
     public BufferedImage getComposedImage(boolean JPG) {
@@ -93,11 +89,8 @@ public class LeftSubCanvas {
         return height;
     }
 
-    public int getSubCanvasX() {
-        return x;
-    }
-
-    public int getSubCanvasY() {
-        return y;
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(width, height);
     }
 }

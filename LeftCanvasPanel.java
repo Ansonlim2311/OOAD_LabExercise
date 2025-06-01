@@ -15,6 +15,36 @@ public class LeftCanvasPanel extends JPanel {
         setBackground(Color.LIGHT_GRAY);
     }
 
+    public void setSubCanvas(LeftSubCanvas subCanvas) {
+        this.subCanvas = subCanvas;
+        removeAll();
+
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setBackground(Color.LIGHT_GRAY);
+        centerPanel.add(subCanvas);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+
+        centerPanel.add(subCanvas, gbc);
+
+        JScrollPane scrollPane = new JScrollPane(centerPanel);
+        scrollPane.setPreferredSize(new Dimension(200, 300));
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(false);
+
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
+        subCanvas.setOpaque(false);
+        revalidate();
+        repaint();
+}
+
     public void newSubCanvas(int width, int height) {
         if (subCanvas == null) {
             subCanvas = new LeftSubCanvas(width, height);
@@ -27,7 +57,7 @@ public class LeftCanvasPanel extends JPanel {
             }
             subCanvas = newSubCanvas;
         }
-        repaint();
+        setSubCanvas(subCanvas);
     }
 
     @Override
@@ -35,12 +65,9 @@ public class LeftCanvasPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-        if (subCanvas != null) {
-            subCanvas.draw(g2d, getWidth(), getHeight());
-        } 
-        g.setColor(Color.BLACK);
-        g.drawString("Left Canvas (Image Composition)", 10, 20);
-        g.dispose();
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("Left Canvas (Image Composition)", 10, 20);
+        g2d.dispose();
     }
 
     public boolean hasSubCanvas() {
