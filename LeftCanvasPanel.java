@@ -6,8 +6,12 @@ import javax.swing.*;
 public class LeftCanvasPanel extends JPanel {
 
     private List<CreationItem> oldItems = new ArrayList<>();
+    private JPanel centerPanel;
+    private GridBagConstraints gbc;
+    private JScrollPane scrollPane;
     private LeftSubCanvas newSubCanvas, subCanvas;
     private CreationItem item;
+    private Graphics2D g2d;
 
     public LeftCanvasPanel() {
         setTransferHandler(new ImageDropHandler());
@@ -19,11 +23,11 @@ public class LeftCanvasPanel extends JPanel {
         this.subCanvas = subCanvas;
         removeAll();
 
-        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(Color.LIGHT_GRAY);
         centerPanel.add(subCanvas);
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
@@ -33,7 +37,7 @@ public class LeftCanvasPanel extends JPanel {
 
         centerPanel.add(subCanvas, gbc);
 
-        JScrollPane scrollPane = new JScrollPane(centerPanel);
+        scrollPane = new JScrollPane(centerPanel);
         scrollPane.setPreferredSize(new Dimension(200, 300));
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setOpaque(false);
@@ -63,7 +67,7 @@ public class LeftCanvasPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
+        g2d = (Graphics2D) g.create();
 
         g2d.setColor(Color.BLACK);
         g2d.drawString("Left Canvas (Image Composition)", 10, 20);

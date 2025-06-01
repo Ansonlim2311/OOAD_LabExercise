@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
-public class LeftSubCanvas extends JPanel{
+public class LeftSubCanvas extends JPanel {
     private int centerX, centerY, width, height;
     private List<CreationItem> items = new ArrayList<>();
     private BufferedImage canvas, outputImage;
-    private Graphics2D whiteCanvas, picture;
+    private Graphics2D whiteCanvas, picture, g2d;
+    private CreationItem item;
 
     public LeftSubCanvas(int width, int height) {
         this.width = width;
@@ -32,12 +33,12 @@ public class LeftSubCanvas extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
+        g2d = (Graphics2D) g.create();
 
         g2d.drawImage(canvas, 0, 0, null);
 
         for(int i = 0; i < items.size(); i++) {
-            CreationItem item = items.get(i);
+            item = items.get(i);
             item.draw(g2d);
         }
     }
@@ -62,7 +63,7 @@ public class LeftSubCanvas extends JPanel{
         }
 
         for(int i = 0; i < items.size(); i++) {
-            CreationItem item = items.get(i);
+            item = items.get(i);
             item.draw(picture);
         }
         picture.dispose();
