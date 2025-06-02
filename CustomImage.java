@@ -11,7 +11,7 @@ class CustomImage extends AbstractCreationItem {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.drawImage(image, getX(), getY(), null);
+        drawFlippedImage(g2d, image);
     }
 
     @Override
@@ -29,13 +29,13 @@ class CustomImage extends AbstractCreationItem {
         return image; 
     }
 
-    @Override
-    public void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight) {
-        int w = getWidth();
-        int h = getHeight();
-        double scale = Math.min((double)maxWidth / w, (double)maxHeight / h);
-        int newW = (int)(w * scale);
-        int newH = (int)(h * scale);
-        g2d.drawImage(image, getX(), getY(), newW, newH, null);
-    }
+    // @Override
+    // public void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight) {
+    //     int w = getWidth();
+    //     int h = getHeight();
+    //     double scale = Math.min((double)maxWidth / w, (double)maxHeight / h);
+    //     int newW = (int)(w * scale);
+    //     int newH = (int)(h * scale);
+    //     g2d.drawImage(image, getX(), getY(), newW, newH, null);
+    // }
 }

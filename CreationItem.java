@@ -8,4 +8,10 @@ public interface CreationItem {
     int getY();
     void setPosition(int x, int y);
     void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight);
+    void setFlippedHorizontally(boolean flipped);
+    void setFlippedVertically(boolean flipped);
+    boolean isFlippedHorizontally();
+    boolean isFlippedVertically();
+    void setScale(double scale);
+    double getScale();
 }

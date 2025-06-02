@@ -11,7 +11,7 @@ class AnimalItems extends AbstractCreationItem {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.drawImage(image, getX(), getY(), null);
+        drawFlippedImage(g2d, image);
     }
 
     @Override

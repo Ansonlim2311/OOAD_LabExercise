@@ -14,6 +14,9 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     private CreationItem currentItem;
     private CreationItem selectedItem = null;
     private int selectedItemX, selectedItemY, selectedItemWidth, selectedItemHeight;
+    private int dragStartX, dragStartY, dragX, dragY;
+    private int scaleX, scaleY;
+    private double scale, scaleFactor;
 
     public LeftSubCanvas(int width, int height) {
         this.width = width;
@@ -80,6 +83,8 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     public void mousePressed(MouseEvent e) {
         pressMouseX = e.getX();
         pressMouseY = e.getY();
+        dragStartX = pressMouseX;
+        dragStartY = pressMouseY;
 
         for (int i = itemList.size() - 1; i >= 0; i--) {
             currentItem = itemList.get(i);
@@ -102,6 +107,17 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (selectedItem != null && SwingUtilities.isRightMouseButton(e)) {
+            dragX = e.getX() - dragStartX;
+            dragY = e.getY() - dragStartY;
+
+            if (Math.abs(dragX) > 30 && Math.abs(dragX) > Math.abs(dragY)) {
+                selectedItem.setFlippedHorizontally(!selectedItem.isFlippedHorizontally());
+            } else {
+                selectedItem.setFlippedVertically(!selectedItem.isFlippedVertically());
+            }
+            repaint();
+        }
         selectedItem = null;
     }
 
@@ -116,11 +132,21 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (selectedItem != null) {
-            pressMouseX = e.getX();
-            pressMouseY = e.getY();
-            selectedItem.setPosition(pressMouseX - dragOffsetX, pressMouseY - dragOffsetY);
-            repaint();
+        if (selectedItem != null && SwingUtilities.isLeftMouseButton(e)) {
+            if (e.isShiftDown()) {
+                scaleX = e.getX() - dragStartX;
+                scaleY = e.getY() - dragStartY;
+                scale = Math.max(scaleX, scaleY);
+                scaleFactor = 1.0 + scale / 200.0;
+
+                selectedItem.setScale(scaleFactor);
+                repaint();
+            } else {
+                pressMouseX = e.getX();
+                pressMouseY = e.getY();
+                selectedItem.setPosition(pressMouseX - dragOffsetX, pressMouseY - dragOffsetY);
+                repaint();
+            }
         }
     }
 
