@@ -1,6 +1,0 @@
-5. Independent Rotation
-• Allow the entire left canvas to also be rotated as a whole.
-• Add rotation sliders or gesture-based rotation using MouseMotionListener.
-
-6. Canvas Composition
-• The resulting composed canvased should also be rotatable.

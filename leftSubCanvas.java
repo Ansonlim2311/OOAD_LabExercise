@@ -15,9 +15,8 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     private CreationItem selectedItem = null;
     private int selectedItemX, selectedItemY, selectedItemWidth, selectedItemHeight;
     private int dragStartX, dragStartY, dragX, dragY;
-    private int scaleX, scaleY;
-    private double scale, scaleFactor;
-    private double currentRotation;
+    private int scaleX, scaleY, canvasCenterX, canvasCenterY;
+    private double scale, scaleFactor, currentRotation, canvasRotation;
 
     public LeftSubCanvas(int width, int height) {
         this.width = width;
@@ -49,12 +48,18 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
         super.paintComponent(g);
         paintGraphics = (Graphics2D) g.create();
 
-        paintGraphics.drawImage(whiteBaseCanvas, 0, 0, null);
+        canvasCenterX = getWidth() / 2;
+        canvasCenterY = getHeight() / 2;
+        paintGraphics.translate(canvasCenterX, canvasCenterY);
+        paintGraphics.rotate(Math.toRadians(canvasRotation));
+        paintGraphics.translate(-canvasCenterX, -canvasCenterY);
 
+        paintGraphics.drawImage(whiteBaseCanvas, 0, 0, null);
         for(int i = 0; i < itemList.size(); i++) {
             currentItem = itemList.get(i);
             currentItem.draw(paintGraphics);
         }
+        paintGraphics.dispose();
     }
 
     public BufferedImage getComposedImage(boolean JPG) {
@@ -147,15 +152,13 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
                 scaleY = e.getY() - dragStartY;
                 scale = Math.max(scaleX, scaleY);
                 scaleFactor = 1.0 + scale / 200.0;
-
                 selectedItem.setScale(scaleFactor);
-                repaint();
             } else {
                 pressMouseX = e.getX();
                 pressMouseY = e.getY();
                 selectedItem.setPosition(pressMouseX - dragOffsetX, pressMouseY - dragOffsetY);
-                repaint();
             }
+            repaint();
         }
     }
 
@@ -165,11 +168,10 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
             currentRotation = selectedItem.getRotation();
             if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 selectedItem.setRotation(currentRotation - 15);
-                repaint();
             } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 selectedItem.setRotation(currentRotation + 15);
-                repaint();
             }
+            repaint();
         }
     }
 
@@ -202,5 +204,10 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
+    }
+
+    public void setCanvasRotation(double angle) {
+        this.canvasRotation = angle % 360;
+        repaint();
     }
 }

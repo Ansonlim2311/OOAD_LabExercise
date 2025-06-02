@@ -19,7 +19,6 @@ public class ToolBar {
         toolBar.add(createFileButton(fileListener));
         toolBar.add(createAddButton(addListener));
         toolBar.add(createDesignButton(designListener));
-        toolBar.add(createResizeButton());
     }
 
     private void addRightSideButtons(PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
@@ -44,11 +43,6 @@ public class ToolBar {
         JButton button = createIconButton("images/design.png", "Design");
         button.addActionListener(e -> listener.openDesignLibrary());
         return button;
-    }
-
-    private JButton createResizeButton() {
-        return createIconButton("images/resize.png", "Resize");
-        // Add listener logic when implemented
     }
 
     private JButton createPenButton(PenButtonHandler listener) {

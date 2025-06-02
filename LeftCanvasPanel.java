@@ -12,11 +12,15 @@ public class LeftCanvasPanel extends JPanel {
     private LeftSubCanvas newSubCanvas, subCanvas;
     private CreationItem item;
     private Graphics2D g2d;
+    private RotationSlider rotationSlider;
 
     public LeftCanvasPanel() {
         setTransferHandler(new ImageDropHandler());
         setPreferredSize(new Dimension(400, 600));
         setBackground(Color.LIGHT_GRAY);
+
+        rotationSlider = new RotationSlider();
+        add(rotationSlider, BorderLayout.SOUTH);
     }
 
     public void setSubCanvas(LeftSubCanvas subCanvas) {
@@ -25,7 +29,6 @@ public class LeftCanvasPanel extends JPanel {
 
         centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(Color.LIGHT_GRAY);
-        centerPanel.add(subCanvas);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -44,6 +47,9 @@ public class LeftCanvasPanel extends JPanel {
 
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
+
+        rotationSlider.setSubCanvas(subCanvas); 
+        add(rotationSlider, BorderLayout.SOUTH);
         subCanvas.setOpaque(false);
         revalidate();
         repaint();
