@@ -13,4 +13,6 @@ public interface CreationItem {
     boolean isFlippedVertically();
     void setScale(double scale);
     double getScale();
+    void setRotation(double angle);
+    double getRotation();
 }

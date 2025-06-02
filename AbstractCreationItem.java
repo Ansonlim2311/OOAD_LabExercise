@@ -2,12 +2,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 abstract class AbstractCreationItem implements CreationItem {
-    protected int x, y, translateX, translateY, imageWidth, imageHeight;
-    protected int scaleX = 1, scaleY = 1;
+    protected int x, y, imageWidth, imageHeight;
+    protected int scaleX, scaleY;
     protected boolean flippedHorizontally = false;
     protected boolean flippedVertically = false;
     protected Graphics2D g2d;
-    protected double scale = 1.0;
+    protected double scale = 1.0, rotation = 0.0;
     protected BufferedImage image;
 
     public AbstractCreationItem(int x, int y) {
@@ -52,6 +52,14 @@ abstract class AbstractCreationItem implements CreationItem {
         return scale;
     }
 
+    public void setRotation(double angle) {
+        this.rotation = angle % 360;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
     public abstract void draw(Graphics2D g2d);
     public int getWidth() {
         return (int) (image.getWidth() * scale);
@@ -63,25 +71,22 @@ abstract class AbstractCreationItem implements CreationItem {
     protected void drawFlippedImage(Graphics2D g, BufferedImage image) {
         imageWidth = (int)(image.getWidth() * scale);
         imageHeight = (int)(image.getHeight() * scale);
-        translateX = x;
-        translateY = y;
         scaleX = 1;
         scaleY = 1;
 
         if (flippedHorizontally == true) {
-            translateX = x + imageWidth;
             scaleX = -1;
         }
 
         if (flippedVertically == true) {
-            translateY = y + imageHeight;
             scaleY = -1;
         }
 
         g2d = (Graphics2D) g.create();
-        g2d.translate(translateX, translateY);
+        g2d.translate(x + imageWidth / 2, y + imageHeight / 2);
+        g2d.rotate(Math.toRadians(rotation));
         g2d.scale(scaleX * scale, scaleY * scale);
-        g2d.drawImage(image, 0, 0, null);
+        g2d.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, null);
         g2d.dispose();
     }
 

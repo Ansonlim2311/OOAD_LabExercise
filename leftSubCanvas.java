@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
-public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionListener {
+public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
     private int width, height, centerX, centerY;
     private int pressMouseX, pressMouseY, dragOffsetX, dragOffsetY;
     private List<CreationItem> itemList = new ArrayList<>();
@@ -17,6 +17,7 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     private int dragStartX, dragStartY, dragX, dragY;
     private int scaleX, scaleY;
     private double scale, scaleFactor;
+    private double currentRotation;
 
     public LeftSubCanvas(int width, int height) {
         this.width = width;
@@ -30,6 +31,10 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
 
         addMouseListener(this);
         addMouseMotionListener(this);
+        addKeyListener(this);
+
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     public void addItem(CreationItem item) {
@@ -81,6 +86,7 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
+        requestFocusInWindow();
         pressMouseX = e.getX();
         pressMouseY = e.getY();
         dragStartX = pressMouseX;
@@ -131,6 +137,9 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     public void mouseExited(MouseEvent e) {}
 
     @Override
+    public void mouseMoved(MouseEvent e) {}
+
+    @Override
     public void mouseDragged(MouseEvent e) {
         if (selectedItem != null && SwingUtilities.isLeftMouseButton(e)) {
             if (e.isShiftDown()) {
@@ -151,7 +160,24 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {}
+    public void keyPressed(KeyEvent e) {
+        if (selectedItem != null) {
+            currentRotation = selectedItem.getRotation();
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                selectedItem.setRotation(currentRotation - 15);
+                repaint();
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                selectedItem.setRotation(currentRotation + 15);
+                repaint();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
 
     public BufferedImage getPNGCanvasImage() {
         return getComposedImage(false);

@@ -1,6 +1,4 @@
 5. Independent Rotation
-• Enable individual creation items (animals, flowers, custom images) to be rotated 
-independently.
 • Allow the entire left canvas to also be rotated as a whole.
 • Add rotation sliders or gesture-based rotation using MouseMotionListener.
 
