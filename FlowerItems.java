@@ -28,14 +28,4 @@ class FlowerItems extends AbstractCreationItem {
     protected BufferedImage getImage() { 
         return image; 
     }
-
-    // @Override
-    // public void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight) {
-    //     int w = getWidth();
-    //     int h = getHeight();
-    //     double scale = Math.min((double)maxWidth / w, (double)maxHeight / h);
-    //     int newW = (int)(w * scale);
-    //     int newH = (int)(h * scale);
-    //     g2d.drawImage(image, getX(), getY(), newW, newH, null);
-    // }
 }

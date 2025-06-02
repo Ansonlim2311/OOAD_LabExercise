@@ -60,15 +60,6 @@ abstract class AbstractCreationItem implements CreationItem {
         return (int) (image.getHeight() * scale);
     }
 
-    public void drawScaled(Graphics2D g2d, int maxWidth, int maxHeight) {
-        int w = getWidth();
-        int h = getHeight();
-        double scale = Math.min((double)maxWidth / w, (double)maxHeight / h);
-        int newW = (int)(w * scale);
-        int newH = (int)(h * scale);
-        g2d.drawImage(getImage(), x, y, newW, newH, null);
-    }
-
     protected void drawFlippedImage(Graphics2D g, BufferedImage image) {
         int imgW = (int)(image.getWidth() * scale);
         int imgH = (int)(image.getHeight() * scale);
