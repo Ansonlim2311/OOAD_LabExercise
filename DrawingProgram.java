@@ -3,14 +3,16 @@ import javax.swing.*;
 
 public class DrawingProgram extends JFrame {
 
-		PenButtonHandler penHandler;
-		EraserButtonHandler eraserHandler;
-		LeftCanvasPanel leftCanvas;
-		RightCanvasPanel rightCanvas;
-		FileButtonHandler fileHandler;
-		AddButtonHandler addHandler;
-		DesignButtonHandler designHandler;
-		RefreshButtonHandler refreshHandler;
+		private PenButtonHandler penHandler;
+		private EraserButtonHandler eraserHandler;
+		private LeftCanvasPanel leftCanvas;
+		private RightCanvasPanel rightCanvas;
+		private FileButtonHandler fileHandler;
+		private AddButtonHandler addHandler;
+		private DesignButtonHandler designHandler;
+		private RefreshButtonHandler refreshHandler;
+		private ToolBar toolBar;
+		private JSplitPane splitPane;
 
 	public DrawingProgram() {
 		super("Drawing Studio Pro");
@@ -26,10 +28,10 @@ public class DrawingProgram extends JFrame {
 		designHandler = new DesignButtonHandler(this, leftCanvas);
 		refreshHandler = new RefreshButtonHandler(this, rightCanvas);
 
-		ToolBar toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, eraserHandler, refreshHandler);
+		toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, eraserHandler, refreshHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
 
-		JSplitPane splitPane = new JSplitPane(
+		splitPane = new JSplitPane(
 			JSplitPane.HORIZONTAL_SPLIT,
 			leftCanvas,
 			rightCanvas

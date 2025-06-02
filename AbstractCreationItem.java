@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 abstract class AbstractCreationItem implements CreationItem {
-    protected int x, y, translateX, translateY;
+    protected int x, y, translateX, translateY, imageWidth, imageHeight;
     protected int scaleX = 1, scaleY = 1;
     protected boolean flippedHorizontally = false;
     protected boolean flippedVertically = false;
@@ -61,20 +61,20 @@ abstract class AbstractCreationItem implements CreationItem {
     }
 
     protected void drawFlippedImage(Graphics2D g, BufferedImage image) {
-        int imgW = (int)(image.getWidth() * scale);
-        int imgH = (int)(image.getHeight() * scale);
+        imageWidth = (int)(image.getWidth() * scale);
+        imageHeight = (int)(image.getHeight() * scale);
         translateX = x;
         translateY = y;
         scaleX = 1;
         scaleY = 1;
 
         if (flippedHorizontally == true) {
-            translateX = x + imgW;
+            translateX = x + imageWidth;
             scaleX = -1;
         }
 
         if (flippedVertically == true) {
-            translateY = y + imgH;
+            translateY = y + imageHeight;
             scaleY = -1;
         }
 

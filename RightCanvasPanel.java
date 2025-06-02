@@ -28,6 +28,9 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mouseDragged(MouseEvent me) {
+        if (graphics2d == null) {
+            return;
+        }
         graphics2d.setStroke(new BasicStroke(penHandler.getPenSize()));
         if (eraserHandler.eraserActive() == true) {
             graphics2d.setColor(Color.WHITE);
@@ -36,9 +39,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
             graphics2d.setColor(penHandler.getPenColor());
         }
         newPoint = me.getPoint();
-        if (graphics2d != null) {
-            graphics2d.drawLine(oldPoint.x, oldPoint.y, newPoint.x, newPoint.y);
-        }
+        graphics2d.drawLine(oldPoint.x, oldPoint.y, newPoint.x, newPoint.y);
         repaint();
         oldPoint = newPoint;
         hasDrawn = true;
@@ -52,20 +53,18 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int width = getWidth();
-        int height = getHeight();
 
         if (image == null) {
-            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             graphics2d = image.createGraphics();
             graphics2d.setBackground(Color.WHITE);
-            graphics2d.fillRect(0, 0, width, height);
+            graphics2d.fillRect(0, 0, getWidth(), getHeight());
         }
-        if (width > 0 && height > 0) {
-            newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        if (getWidth() > 0 && getHeight() > 0) {
+            newImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
             g2d = newImage.createGraphics();
             g2d.setBackground(Color.WHITE);
-            g2d.clearRect(0, 0, width, height);
+            g2d.clearRect(0, 0, getWidth(), getHeight());
 
             if (image != null) {
                 g2d.drawImage(image, 0, 0, null);
@@ -86,12 +85,10 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
             return image;
         }
 
-        int width = getWidth();
-        int height = getHeight();
-        jpgImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = jpgImage.createGraphics();
+        jpgImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        g2d = jpgImage.createGraphics();
         g2d.setBackground(Color.WHITE);
-        g2d.fillRect(0, 0, width, height);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.drawImage(image, 0, 0, null);
         
         return jpgImage;
@@ -122,7 +119,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
         if (image != null) {
             clearG2 = image.createGraphics();
             clearG2.setColor(Color.WHITE);
-            clearG2.fillRect(0, 0, getWidth(), getHeight());
+            clearG2.fillRect(0, 0, image.getWidth(), image.getHeight());
             clearG2.dispose();
             hasDrawn = false;
             unsavedChanges = false;

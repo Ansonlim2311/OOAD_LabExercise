@@ -8,12 +8,10 @@ import java.awt.image.BufferedImage;
 public class RefreshButtonHandler { 
     private RightCanvasPanel rightCanvas;
     private Component parentComponent;
-    private int choice;
-    private String formatSelection;
+    private int choice, result;
+    private String formatSelection,filename;
     private JFileChooser folderChooser = new JFileChooser("library");
-    private int result;
     private File folder, outputFile;
-    private String filename;
     private BufferedImage imageToBeSaved;
     private Boolean saved;
 
