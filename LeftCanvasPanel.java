@@ -11,9 +11,9 @@ public class LeftCanvasPanel extends JPanel {
     private JScrollPane scrollPane;
     private LeftSubCanvas newSubCanvas, subCanvas;
     private CreationItem item;
-    private Graphics2D g2d;
     private RotationSlider rotationSlider;
 
+    // constructor for set up panel and initialize image drop handler and rotation slider
     public LeftCanvasPanel() {
         setTransferHandler(new ImageDropHandler());
         setPreferredSize(new Dimension(400, 600));
@@ -23,6 +23,7 @@ public class LeftCanvasPanel extends JPanel {
         add(rotationSlider, BorderLayout.SOUTH);
     }
 
+    // set the sub canvas and add it to the center panel of left canvas
     public void setSubCanvas(LeftSubCanvas subCanvas) {
         this.subCanvas = subCanvas;
         removeAll();
@@ -53,8 +54,10 @@ public class LeftCanvasPanel extends JPanel {
         subCanvas.setOpaque(false);
         revalidate();
         repaint();
-}
+    }
 
+    // create new subcanvas with specified width and height
+    // and copy the old item list to the new subcanvas
     public void newSubCanvas(int width, int height) {
         if (subCanvas == null) {
             subCanvas = new LeftSubCanvas(width, height);
@@ -70,20 +73,12 @@ public class LeftCanvasPanel extends JPanel {
         setSubCanvas(subCanvas);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g2d = (Graphics2D) g.create();
-
-        g2d.setColor(Color.BLACK);
-        g2d.drawString("Left Canvas (Image Composition)", 10, 20);
-        g2d.dispose();
-    }
-
+    // check wehter there is a sub canvas
     public boolean hasSubCanvas() {
         return subCanvas != null;
     }
 
+    // get the current sub canvas
     public LeftSubCanvas getSubCanvas() {
         return subCanvas;
     }

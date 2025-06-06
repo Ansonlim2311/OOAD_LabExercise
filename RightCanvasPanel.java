@@ -3,8 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
+// Drawing canvas class where users can draw with a pen or erase drawings
 public class RightCanvasPanel extends JPanel implements MouseMotionListener, MouseListener {
-    
+    // Variables for drawing and erasing
     private Point oldPoint = new Point();
     private Point newPoint  = new Point();
     private BufferedImage image, newImage, jpgImage;
@@ -13,6 +14,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     private PenButtonHandler penHandler;
     private EraserButtonHandler eraserHandler;
 
+    // Constructor initializes the canvas with pen and eraser handlers
     RightCanvasPanel(PenButtonHandler penHandler, EraserButtonHandler eraserHandler) {
         this.penHandler = penHandler;
         this.eraserHandler = eraserHandler;
@@ -26,6 +28,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     public void mouseEntered (MouseEvent me) {};
     public void mouseExited (MouseEvent me) {};
 
+    // Draw line as users drag the mouse
     @Override
     public void mouseDragged(MouseEvent me) {
         if (graphics2d == null) {
@@ -46,11 +49,14 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
         unsavedChanges = true;
     }
 
+    // store user current mouse position
     @Override
     public void mouseMoved(MouseEvent me) {
         oldPoint = me.getPoint();
     }
 
+    // Paint the canvas with the current image
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -76,6 +82,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
         g.drawImage(image, 0, 0, null);
     }
 
+    // return the current image of the right canvas
     public BufferedImage getCanvasImage(boolean JPG) {
         if (image == null) {
             return null;
@@ -94,32 +101,38 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
         return jpgImage;
     }
 
+    // return the current image of the right canvas in PNG format
     public BufferedImage getPNGCanvasImage() {
         return getCanvasImage(false);
     }
 
+    // return the current image of the right canvas in JPG format
     public BufferedImage getJPGCanvasImage() {
         return getCanvasImage(true);
     }
 
-
+    // check if the canvas has unsaved changes
     public boolean hasUnsavedChanges() {
         return unsavedChanges;
     }
 
+    // mark canvas status to saved
     public void setUnsavedChange() {
         unsavedChanges = false;
     }
 
+    // check if canvas is empty or not
     public boolean isEmpty() {
         return !hasDrawn;
     }
 
+    // clear the right canvas 
     public void clearCanvas() {
         if (image != null) {
             clearG2 = image.createGraphics();
             clearG2.setColor(Color.WHITE);
-            clearG2.fillRect(0, 0, image.getWidth(), image.getHeight());
+            clearG2.fillRect(0, 0, 
+                image.getWidth(), image.getHeight());
             clearG2.dispose();
             hasDrawn = false;
             unsavedChanges = false;

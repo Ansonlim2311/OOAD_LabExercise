@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+// FileButtonHandler class handler saving functionalities for the left and right canvas
+// It allows users to select a canvas, choose a file format, and save the canvas as an image file
 public class FileButtonHandler {
     private Component parentComponent;
     private LeftCanvasPanel leftCanvas;
@@ -17,14 +19,17 @@ public class FileButtonHandler {
     private String filename;
     private BufferedImage imageToBeSaved;
 
+    // Constructor to initialize the parent component and left and right canvas panels
     public FileButtonHandler(Component parentComponent, LeftCanvasPanel leftCanvas, RightCanvasPanel rightCanvas) {
         this.parentComponent = parentComponent;
         this.leftCanvas = leftCanvas;
         this.rightCanvas = rightCanvas;
     }
 
+    // Method to open a file dialog for saving the selected canvas
+    // Ask the user to select which canvas to save, the file format, and the folder to save the file
     public void openFileDialog() {
-        String[] options = {"Left Canvas", "Right Canvas", "Both"};
+        String[] options = {"Left Canvas", "Right Canvas"};
         canvasSelection = (String) JOptionPane.showInputDialog(
             parentComponent,
             "Which canvas would you like to save?",
@@ -71,33 +76,34 @@ public class FileButtonHandler {
             imageToBeSaved = null;
             if (canvasSelection.equals("Left Canvas")) {
                 subCanvas = leftCanvas.getSubCanvas();
-                if (formatSelection == "PNG") {
+                if ("PNG".equals(formatSelection)) {
                     imageToBeSaved = subCanvas.getPNGCanvasImage();
                 }
-                else if (formatSelection == "JPG") {
+                else if ("JPG".equals(formatSelection)) {
                     imageToBeSaved = subCanvas.getJPGCanvasImage();
                 }
             }
             else if (canvasSelection.equals("Right Canvas")) {
-                if (formatSelection == "PNG") {
+                if ("PNG".equals(formatSelection)) {
                     imageToBeSaved = rightCanvas.getPNGCanvasImage();
                 }
-                else if (formatSelection == "JPG") {
+                else if ("JPG".equals(formatSelection)) {
                     imageToBeSaved = rightCanvas.getJPGCanvasImage();
                 }
+                saveChange();
             }
 
             if (imageToBeSaved != null) {
                 outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
                 ImageIO.write(imageToBeSaved, formatSelection.toLowerCase(), outputFile);
                 JOptionPane.showMessageDialog(parentComponent, "Image Saved To:\n" + outputFile.getAbsolutePath());
-                saveChange();
             }
         } catch (IOException error) {
             JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
         }
     }
     
+    // Method to mark right canvas as having no unsaved changes
     private boolean saveChange() {
         rightCanvas.setUnsavedChange();
         return true;

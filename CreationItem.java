@@ -1,5 +1,8 @@
 import java.awt.Graphics2D;
 
+// CreationItem interface defines the methods that any creation item must implement.
+// include setter and getter methods for position, flipping, scaling, and rotation,
+// as well as a method to draw the item on a Graphics2D context.
 public interface CreationItem {
     void draw(Graphics2D g2d);
     int getWidth();

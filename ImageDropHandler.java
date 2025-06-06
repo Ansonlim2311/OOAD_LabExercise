@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.List;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
+// ImageDropHandler class handles the drag-and-drop functionality for images
+// It allows users to drop image files onto the left canvas and adds them as CreationItems
 public class ImageDropHandler extends TransferHandler {
     private String fileName;
     private Object fileObject;
@@ -50,7 +52,7 @@ public class ImageDropHandler extends TransferHandler {
                             JOptionPane.showMessageDialog(leftCanvas, "Please create a subcanvas first!");
                             return false;
                         }
-                        item = new CustomImage(image);
+                        item = new CustomImage(image, 10, 10);
                         subCanvas.addItem(item);
                         leftCanvas.repaint();
                     }

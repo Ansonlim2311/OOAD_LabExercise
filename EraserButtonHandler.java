@@ -4,6 +4,7 @@ import java.awt.*;
 public class EraserButtonHandler {
     private boolean eraserActive = false;
 
+    // toggle eraser active state and change button border
     public void activeEraser(JButton button) {
         eraserActive = !eraserActive;
         if (eraserActive) {
@@ -13,6 +14,7 @@ public class EraserButtonHandler {
         }
     }
 
+    // check if eraser is active or not
     public boolean eraserActive() {
         return eraserActive;
     }
