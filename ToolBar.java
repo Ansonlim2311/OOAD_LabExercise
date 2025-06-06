@@ -6,8 +6,8 @@ public class ToolBar {
     private JToolBar toolBar;
 
     // constructor to initialize the toolbar with various buttons
-    public ToolBar(FileButtonHandler fileListener, AddButtonHandler addListener, DesignButtonHandler designListener, 
-                PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
+    public ToolBar(FileButtonHandler fileListener, AddButtonHandler addListener, DesignButtonHandler designListener, PenButtonHandler penListener, 
+                    ColourButtonHandler colourListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
         toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBackground(new Color(173, 216, 230));
@@ -15,7 +15,7 @@ public class ToolBar {
 
         addLeftSideButtons(fileListener, addListener, designListener);
         toolBar.add(Box.createHorizontalGlue());
-        addRightSideButtons(penListener, eraserListener, refreshListener);
+        addRightSideButtons(penListener, colourListener, eraserListener, refreshListener);
     }
 
     // Method to add buttons to the left side of the toolbar
@@ -26,8 +26,10 @@ public class ToolBar {
     }
 
     // Method to add buttons to the right side of the toolbar
-    private void addRightSideButtons(PenButtonHandler penListener, EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
+    private void addRightSideButtons(PenButtonHandler penListener, ColourButtonHandler colourListener, 
+                                    EraserButtonHandler eraserListener, RefreshButtonHandler refreshListener) {
         toolBar.add(createPenButton(penListener));
+        toolBar.add(createColourButton(colourListener));
         toolBar.add(createEraserButton(eraserListener));
         toolBar.add(createRefreshButton(refreshListener));
     }
@@ -57,6 +59,12 @@ public class ToolBar {
     private JButton createPenButton(PenButtonHandler listener) {
         JButton button = createIconButton("images/pen.png", "Pen");
         button.addActionListener(e -> listener.openPenDialog());
+        return button;
+    }
+
+    private JButton createColourButton(ColourButtonHandler listener) {
+        JButton button = createIconButton("images/colourPalette.png", "Colour");
+        button.addActionListener(e -> listener.openColourDialog());
         return button;
     }
 

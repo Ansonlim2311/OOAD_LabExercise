@@ -7,6 +7,7 @@ public class DrawingStudioPro extends JFrame {
 	private LeftCanvasPanel leftCanvas;
 	private RightCanvasPanel rightCanvas;
 	private PenButtonHandler penHandler;
+	private ColourButtonHandler colourHandler;
 	private EraserButtonHandler eraserHandler;
 	private FileButtonHandler fileHandler;
 	private AddButtonHandler addHandler;
@@ -23,16 +24,17 @@ public class DrawingStudioPro extends JFrame {
 
 		// Initialize the button handlers and canvas panels
 		penHandler = new PenButtonHandler(this);
+		colourHandler = new ColourButtonHandler(this);
 		eraserHandler = new EraserButtonHandler();
 		leftCanvas = new LeftCanvasPanel();
-		rightCanvas = new RightCanvasPanel(penHandler, eraserHandler);
+		rightCanvas = new RightCanvasPanel(penHandler, colourHandler, eraserHandler);
 		fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
 		addHandler = new AddButtonHandler(this, leftCanvas);
 		designHandler = new DesignButtonHandler(this, leftCanvas);
 		refreshHandler = new RefreshButtonHandler(this, rightCanvas);
 
 		// Create and add toolBar at top
-		toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, eraserHandler, refreshHandler);
+		toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, colourHandler, eraserHandler, refreshHandler);
 		this.add(toolBar.getToolBar(), BorderLayout.NORTH);
 
 		// Split the main window into left and right panels

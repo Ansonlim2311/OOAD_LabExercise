@@ -12,11 +12,13 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
     private boolean hasDrawn, unsavedChanges = false;
     private Graphics2D graphics2d, g2d, clearG2;
     private PenButtonHandler penHandler;
+    private ColourButtonHandler colourHandler;
     private EraserButtonHandler eraserHandler;
 
     // Constructor initializes the canvas with pen and eraser handlers
-    RightCanvasPanel(PenButtonHandler penHandler, EraserButtonHandler eraserHandler) {
+    RightCanvasPanel(PenButtonHandler penHandler, ColourButtonHandler colourHandler, EraserButtonHandler eraserHandler) {
         this.penHandler = penHandler;
+        this.colourHandler = colourHandler;
         this.eraserHandler = eraserHandler;
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
@@ -39,7 +41,7 @@ public class RightCanvasPanel extends JPanel implements MouseMotionListener, Mou
             graphics2d.setColor(Color.WHITE);
         }
         else {
-            graphics2d.setColor(penHandler.getPenColor());
+            graphics2d.setColor(colourHandler.getPenColor());
         }
         newPoint = me.getPoint();
         graphics2d.drawLine(oldPoint.x, oldPoint.y, newPoint.x, newPoint.y);
