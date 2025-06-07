@@ -66,7 +66,7 @@ public class LeftSubCanvas extends JPanel implements MouseListener, MouseMotionL
         }
         paintGraphics.dispose();
     }
-
+    
     // compose the image with all items drawn on the white base canvas
     public BufferedImage getComposedImage(boolean JPG) {
         if (whiteBaseCanvas == null) {
