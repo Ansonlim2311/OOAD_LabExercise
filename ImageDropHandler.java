@@ -18,6 +18,10 @@ public class ImageDropHandler extends TransferHandler {
     private LeftSubCanvas subCanvas;
     private CreationItem item;
 
+    public ImageDropHandler(LeftCanvasPanel leftCanvas) {
+        this.leftCanvas = leftCanvas;
+    }
+
     @Override
     public boolean canImport(TransferSupport support) {
         return support.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
@@ -45,7 +49,6 @@ public class ImageDropHandler extends TransferHandler {
                 if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
                     image = ImageIO.read(file);
                     if (image != null) {
-                        leftCanvas = (LeftCanvasPanel) support.getComponent();
                         subCanvas = leftCanvas.getSubCanvas();
 
                         if (leftCanvas.hasSubCanvas() == false) {

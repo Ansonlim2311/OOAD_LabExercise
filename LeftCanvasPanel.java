@@ -15,7 +15,7 @@ public class LeftCanvasPanel extends JPanel {
 
     // constructor for set up panel and initialize image drop handler and rotation slider
     public LeftCanvasPanel() {
-        setTransferHandler(new ImageDropHandler());
+        setTransferHandler(new ImageDropHandler(this));
         setPreferredSize(new Dimension(400, 600));
         setBackground(Color.LIGHT_GRAY);
 
