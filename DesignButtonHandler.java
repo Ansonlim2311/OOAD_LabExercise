@@ -68,11 +68,6 @@ public class DesignButtonHandler {
                 return;
             }
 
-            if (leftCanvas.hasSubCanvas() == false) {
-                JOptionPane.showMessageDialog(parentComponent, "Please create a canvas first using the Add button.");
-                return;
-            }
-
             subCanvas = leftCanvas.getSubCanvas();
             if (subCanvas == null) {
                 JOptionPane.showMessageDialog(parentComponent, "No subcanvas found. Please create one first.");
