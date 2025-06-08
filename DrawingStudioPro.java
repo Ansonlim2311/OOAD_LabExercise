@@ -31,7 +31,7 @@ public class DrawingStudioPro extends JFrame {
 		fileHandler = new FileButtonHandler(this, leftCanvas, rightCanvas);
 		addHandler = new AddButtonHandler(this, leftCanvas);
 		designHandler = new DesignButtonHandler(this, leftCanvas);
-		refreshHandler = new RefreshButtonHandler(this, rightCanvas);
+		refreshHandler = new RefreshButtonHandler(this, rightCanvas, fileHandler);
 
 		// Create and add toolBar at top
 		toolBar = new ToolBar(fileHandler, addHandler, designHandler, penHandler, colourHandler, eraserHandler, refreshHandler);

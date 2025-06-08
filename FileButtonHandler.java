@@ -102,7 +102,59 @@ public class FileButtonHandler {
             JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
         }
     }
-    
+
+    // function to be called when rightcanvas refresh and user want to save their drawing
+    public boolean saveRightCanvas() {
+        String[] format = {"JPG", "PNG"};
+        formatSelection = (String) JOptionPane.showInputDialog(
+            parentComponent,
+            "Which File Format Would You Like To Save?",
+            "Format Selection",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            format,
+            format[0]
+        );
+        if (formatSelection == null) {
+            return false;
+        }
+
+        folderChooser.setDialogTitle("Choose Folder To Save Your File");
+        folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        folderChooser.setApproveButtonText("Select");
+
+        result = folderChooser.showSaveDialog(parentComponent);
+        if (result != JFileChooser.APPROVE_OPTION) {
+            return false;
+        }
+
+        folder = folderChooser.getSelectedFile();
+        filename = JOptionPane.showInputDialog(parentComponent, "Enter Your Filename");
+        if (filename == null || filename.trim().isEmpty()) {
+            return false;
+        }
+
+        try {
+            imageToBeSaved = null;
+            if ("PNG".equals(formatSelection)) {
+                imageToBeSaved = rightCanvas.getPNGCanvasImage();
+            } else if ("JPG".equals(formatSelection)) {
+                imageToBeSaved = rightCanvas.getJPGCanvasImage();
+            }
+
+            if (imageToBeSaved != null) {
+                outputFile = new File(folder, filename + "." + formatSelection.toLowerCase());
+                ImageIO.write(imageToBeSaved, formatSelection.toLowerCase(), outputFile);
+                JOptionPane.showMessageDialog(parentComponent, "Image Saved To:\n" + outputFile.getAbsolutePath());
+                saveChange();
+                return true;
+            }
+        } catch (IOException error) {
+            JOptionPane.showMessageDialog(parentComponent, "Image Saved Failed:\n" + error.getMessage());
+        }
+        return false;
+    }
+
     // Method to mark right canvas as having no unsaved changes
     private boolean saveChange() {
         rightCanvas.setUnsavedChange();
